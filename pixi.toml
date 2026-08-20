@@ -1,0 +1,12 @@
+[workspace]
+name = "forrestsheldon-github-io"
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "linux-64"]
+
+[dependencies]
+quarto = "1.9.38.*"
+
+[tasks]
+preview = { cmd = "quarto preview", description = "Preview the site locally" }
+render = { cmd = "quarto render", description = "Render the production site" }
+validate = { cmd = "quarto render", description = "Validate that the complete site renders successfully" }
