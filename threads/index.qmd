@@ -1,0 +1,8 @@
+---
+title: "Threads"
+description: "Recurring lines of inquiry across the site."
+---
+
+Threads are recurring lines of inquiry rather than rigid subject categories. They connect writing that returns to the same intellectual questions across projects and methods.
+
+- [Biological Inference](biological-inference/index.qmd)

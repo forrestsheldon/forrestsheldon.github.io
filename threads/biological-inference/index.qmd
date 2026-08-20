@@ -1,0 +1,8 @@
+---
+title: "Biological Inference"
+description: "What can we infer about biological systems from noisy, finite and indirect measurements?"
+---
+
+What can we infer about biological systems from noisy, finite and indirect measurements?
+
+This thread collects questions about contamination, count and label noise, batch effects, pseudoreplication, identifiability, dimensionality, scaling, and the relationship between biological questions and statistical estimands.

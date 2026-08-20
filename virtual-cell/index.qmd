@@ -1,0 +1,13 @@
+---
+title: "Virtual Cell Challenge"
+description: "Experiments and ideas about perturbation prediction, cell-state representations, and virtual-cell models."
+listing:
+  contents: "posts/*/index.qmd"
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+---
+
+The challenge is a forcing function, not the boundary of the project. The posts here follow questions rather than days: what is identifiable, what transfers across cellular contexts, how far simple models get us, and what additional structure more complicated architectures actually buy.

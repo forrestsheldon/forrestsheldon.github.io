@@ -1,0 +1,36 @@
+---
+title: "How Much of Perturbation Response Is Actually Linear?"
+description: "A first-principles baseline for transferring perturbation effects across cellular contexts."
+date: 2026-08-21
+draft: true
+categories:
+  - perturbation modelling
+  - linear models
+  - baselines
+---
+
+## Question
+
+<!-- State the scientific question before introducing the method. -->
+
+## Simplest model
+
+<!-- Derive the linear baseline and make assumptions explicit. -->
+
+## What would make it fail?
+
+<!-- Write down failure modes before looking at the result. -->
+
+## Experiment
+
+<!-- Link to reproducible code / notebook in the challenge repository. -->
+
+## Result
+
+<!-- Add figures and quantitative results. Never invent missing results. -->
+
+## Interpretation
+
+<!-- Separate observation from interpretation. -->
+
+## Next question

@@ -1,0 +1,12 @@
+---
+title: "Writing"
+listing:
+  contents:
+    - "virtual-cell/posts/*/index.qmd"
+    - "threads/**/posts/*/index.qmd"
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+---

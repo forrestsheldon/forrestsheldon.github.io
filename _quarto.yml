@@ -1,0 +1,45 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "virtual-cell/**/*.qmd"
+    - "threads/**/*.qmd"
+    - "!ideas/**"
+    - "!drafts/**"
+
+website:
+  title: "Forrest Sheldon"
+  description: "Notes on machine learning, biological inference, and virtual cells."
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: posts.qmd
+        text: Writing
+      - href: virtual-cell/index.qmd
+        text: Virtual Cell
+      - href: threads/index.qmd
+        text: Threads
+      - href: about.qmd
+        text: About
+    right:
+      - icon: github
+        href: https://github.com/forrestsheldon
+        aria-label: GitHub
+  search: true
+  page-navigation: true
+  back-to-top-navigation: true
+  open-graph: true
+  page-footer:
+    left: "© Forrest Sheldon"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto

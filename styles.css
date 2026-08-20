@@ -1,0 +1,23 @@
+/* Keep the visual system deliberately restrained. Content and figures should dominate. */
+
+:root {
+  --content-max-width: 900px;
+}
+
+.quarto-title-block .quarto-title-banner {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+main.content {
+  max-width: var(--content-max-width);
+}
+
+blockquote {
+  font-size: 1rem;
+}
+
+.cell-output-display {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}

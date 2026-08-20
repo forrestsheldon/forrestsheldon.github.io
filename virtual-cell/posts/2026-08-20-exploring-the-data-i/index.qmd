@@ -1,0 +1,29 @@
+---
+title: "Exploring the Data I"
+description: "How the Virtual Cell Challenge data were constructed and preprocessed, followed by independent inspection and preprocessing."
+date: 2026-08-20
+draft: true
+categories:
+  - data exploration
+  - challenge 2026
+---
+
+## What data did we actually receive?
+
+[Describe dataset structure, cell lines, perturbations, controls, matrices, metadata.]
+
+## How were the data produced and preprocessed?
+
+[Trace the official preprocessing pipeline and distinguish raw measurements from derived objects.]
+
+## Coverage and sampling
+
+[Cells per perturbation, cells per cell line, sequencing depth, detected genes, imbalance, missingness.]
+
+## My preprocessing
+
+[Independent QC/preprocessing choices and why they differ from or reproduce the provided pipeline.]
+
+## Questions raised by the data
+
+[Record anomalies and hypotheses that motivate subsequent analyses.]

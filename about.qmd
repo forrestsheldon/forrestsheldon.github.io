@@ -1,0 +1,9 @@
+---
+title: "About"
+---
+
+I am a physicist and machine-learning researcher working on problems in computational biology.
+
+This site is where I develop ideas in public: derivations, experiments, failures, technical notes, and longer essays. The aim is to understand the inference problem before adding model complexity.
+
+For code and research projects, see [GitHub](https://github.com/forrestsheldon).

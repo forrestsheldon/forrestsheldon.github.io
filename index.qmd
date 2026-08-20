@@ -1,0 +1,20 @@
+---
+title: "Forrest Sheldon"
+page-layout: full
+---
+
+Physicist working on machine learning and computational biology. This site is a public research notebook for problems in biological inference, with a particular focus on cell-state representation, perturbation biology, and single-cell genomics.
+
+## Current project
+
+### Virtual Cell Challenge 2026
+
+I am using the challenge as a test bed for simple statistical baselines, perturbation models, and new ideas about how cellular responses generalise across context.
+
+[Follow the Virtual Cell series →](virtual-cell/index.qmd)
+
+## Recurring questions
+
+Beyond the current programme, I return to questions about what biological measurements let us infer: noise, contamination, identifiability, scaling, high-dimensional inference, and the statistical assumptions hidden inside common pipelines.
+
+[Explore the threads →](threads/index.qmd)
