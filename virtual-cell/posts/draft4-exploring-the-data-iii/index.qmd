@@ -1,0 +1,18 @@
+---
+title: "VCC26: Exploring the Data III - External Datasets"
+description: "A dive into last years data set to see what we can expect."
+draft: true
+categories:
+  - data exploration
+  - challenge 2026
+---
+
+## A survey of external datasets and perturbation coverage
+
+[Describe the task and evaluation. Point to a later metrics post]
+
+## External Evaluations
+
+## A dive into Replogle
+
+

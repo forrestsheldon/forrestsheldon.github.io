@@ -1,29 +1,47 @@
 ---
-title: "Exploring the Data I"
-description: "How the Virtual Cell Challenge data were constructed and preprocessed, followed by independent inspection and preprocessing."
-date: 2026-08-20
+title: "Preliminaries: Our approach to the virtual cell"
+description: "Who I am, how I'm approaching the competition and where I think we are on virtual cells"
 draft: true
 categories:
-  - data exploration
+  - introduction
   - challenge 2026
 ---
 
-## What data did we actually receive?
+## whoami
 
-[Describe dataset structure, cell lines, perturbations, controls, matrices, metadata.]
+Hi! I'm Forrest and for whatever reason you've stumbled onto my virtual cell competition blog.
+I made a pivot from physics and neuromorphic computing to biology and cell reprogramming a few years ago.
+For the last couple of years I've been working on analyzing perturbation screens and trying to find reliable ways
+to nominate cell reprogramming targets.
+That turns out to be a pretty hard problem and in the process I'm continually learning new things about biology,
+statistics and machine learning.
+To keep that process going, I'm joining the virtual cell challenge
 
-## How were the data produced and preprocessed?
+## How I'm approaching the virtual cell challenge
 
-[Trace the official preprocessing pipeline and distinguish raw measurements from derived objects.]
+First, I am not alone. My friend Alex and I are a two person team, both aiming to join the challenge as a way to keep learning.
+As individuals we can't compete on resources, so the goal here is to carefully wade into this years challenge and
+look for novel and cheap ideas that we can try.
+The best way to learn is not just by doing, but by doing carefully, and writing about the process is a way to ensure that happens.
+Hopefully in doing that, we'll kick off some worthwhile conversations with everyone else.
+Broadly, I'm organizing the competition into:
 
-## Coverage and sampling
+* Exploring the Data - For the first week or two I'll be writing about the provided and linked datasets and the methods
+used to produce them.
+The material here will be more biology and sequencing heavy.
+If you want to make a good model, you need to understand your data.
+* Baselines - One of the themes of virtual cell modelling so far is that simple baselines are tough to beat.
+A lot of that debate centers on what you measure (see below) and more careful measurements have shown that deep learning
+models may have the edge.
+The point remains though that simple interpretable models can be competitive if they are carefully geared to the problem
+at hand and looking at these should occupy early September.
+* One Step Beyond Linear Models - Can we use the successes and failures of our nice interpretable baselines to develop a family
+of slightly more advanced models? This should close out September
+* Modern Models - Part of the goal of all of this is to learn about the modern approaches to the virtual cell:
+transformers, flow matching, optimal transport etc. I'll spend the last month of the competition writing and working on these approaches.
 
-[Cells per perturbation, cells per cell line, sequencing depth, detected genes, imbalance, missingness.]
+## Where I think we are with virtual cell models
 
-## My preprocessing
-
-[Independent QC/preprocessing choices and why they differ from or reproduce the provided pipeline.]
-
-## Questions raised by the data
-
-[Record anomalies and hypotheses that motivate subsequent analyses.]
+Where we are in the economics of the field.
+Where we are on the science. (A very simple taxonomy of models).
+The evolving paper trail.

@@ -1,9 +1,14 @@
 ---
-title: "About"
+title: "What I talk about when I talk about science"
 ---
 
-I am a physicist and machine-learning researcher working on problems in computational biology.
+I am a physicist who used to do a lot of machine learning until I got side tracked into biology.
+Now I'm trying to bring my disparate parts together into some coherent (and updated) intellectual whole by following the advice of William Zinsser
+in [*Writing to Learn*](https://www.harpercollins.com/products/writing-to-learn-william-zinsser).
+This book (first pointed out to me by [Thore Graepel's excellent posts](https://thoregraepel.substack.com/p/introducing-patterns-of-thought)) makes the point that writing clearly about a subject is the best
+way to learn it:
+"Writing enables us to find out what we know—and what we don’t know—about whatever we’re trying to learn."
+Hopefully by trying to write clearly to you all, I will figure these things out and we'll both learn something.
 
-This site is where I develop ideas in public: derivations, experiments, failures, technical notes, and longer essays. The aim is to understand the inference problem before adding model complexity.
 
 For code and research projects, see [GitHub](https://github.com/forrestsheldon).

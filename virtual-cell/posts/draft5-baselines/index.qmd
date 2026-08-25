@@ -1,7 +1,6 @@
 ---
 title: "How Much of Perturbation Response Is Actually Linear?"
 description: "A first-principles baseline for transferring perturbation effects across cellular contexts."
-date: 2026-08-21
 draft: true
 categories:
   - perturbation modelling

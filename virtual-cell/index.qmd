@@ -1,6 +1,6 @@
 ---
 title: "Virtual Cell Challenge"
-description: "Experiments and ideas about perturbation prediction, cell-state representations, and virtual-cell models."
+description: "A place to share thoughts on the 2026 VCC."
 listing:
   contents: "posts/*/index.qmd"
   sort: "date desc"
@@ -10,4 +10,11 @@ listing:
   filter-ui: false
 ---
 
-The challenge is a forcing function, not the boundary of the project. The posts here follow questions rather than days: what is identifiable, what transfers across cellular contexts, how far simple models get us, and what additional structure more complicated architectures actually buy.
+An evolving record of work, thoughts and questions as I work through the 2026 Virtual Cell Challenge.
+I am joining the challenge as part of a communal effort to learn and writing this to clarify my own thoughts[^writing-to-learn] and share useful information I find along the way.
+I will do my best to avoid jargon and target the material to as wide an audience as possible.
+Disclaimer I: I am neither a biologist, nor a bioinformatician, nor a virtual cell expert, so I am learning much of this material on the fly.
+Disclaimer II: I am a physicist, so some of the material may be quite mathy.
+I hope you enjoy the read.
+
+[^writing-to-learn]: William Zinsser, [*Writing to Learn*](https://www.harpercollins.com/products/writing-to-learn-william-zinsser) (1988), makes the case that writing about a subject is one of the best ways to understand it.
