@@ -9,4 +9,5 @@ quarto = "1.9.38.*"
 [tasks]
 preview = { cmd = "quarto preview", description = "Preview the site locally" }
 render = { cmd = "quarto render", description = "Render the production site" }
+drafts = { cmd = "quarto preview", env = { QUARTO_PROFILE = "drafts" }, description = "Preview the site with draft posts visible" }
 validate = { cmd = "quarto render", description = "Validate that the complete site renders successfully" }
