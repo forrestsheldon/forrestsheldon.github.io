@@ -12,8 +12,8 @@ categories:
 
 - This year's Virtual Cell Challenge is zero-shot CRISPRi perturbation prediction across cell lines. The experimental stack
   is cell-line culture → CRISPRi perturbation → 10x Flex scRNA-seq.
-- Continuous cell lines include embryonic or induced pluripotent stem-cell lines (H1 or iPSCs), engineered immortalized
-  lines (RPE1), transformed lines (HEK293), and cancer-derived lines (HeLa).
+- Continuous cell lines include intrinsically proliferative stem-cell lines (H1 or iPSCs), engineered immortalized
+  lines (RPE1 or HEK293), and cancer-derived lines (HeLa).
 - Our first guesses for the VCC validation lines are all cancer lines: A → Jurkat E6.1; B → HeLa; C → CAL-33.
 - A negative baseline that just sampled the control cells scored −0.304 overall. Five component scores were near zero, but
   DE direction fidelity was strongly negative at −1.721.
