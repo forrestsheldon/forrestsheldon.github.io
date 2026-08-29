@@ -67,11 +67,9 @@ The small peak in B is the satellite.
 
 ## What is a cell line?
 
-Humans generally do not like parting with their cells. At the same time, researchers need a constantly replenishing source
-of consistent cells to experiment with. A continuously dividing population of cells that can be cultured in a dish is
-a 'continuous cell line.' (There are also finite cell lines that will not divide continuously but we won't talk about them here.)
-Cells from the same line share enough to give researchers a more consistent platform for reproducible experiments (though differences are
-still present within a line).
+Humans generally do not like parting with their cells. At the same time, researchers need a constantly renewing source
+of cells that behave consistently. Continuous cell lines are designed to meet this need. They keep dividing in a dish,
+providing a renewable and reasonably consistent experimental system.
 
 Human cells generally have some ability to divide, but for most cells this is limited.[^hayflick] There are a few ways of getting around this.
 How you get around it can be thought of as forming the broad cell line categories:
