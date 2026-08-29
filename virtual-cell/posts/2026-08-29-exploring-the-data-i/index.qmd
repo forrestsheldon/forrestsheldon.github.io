@@ -42,7 +42,7 @@ perturbation outcomes.
 ## The A, B and C control cells
 
 The competition supplies control cells corresponding to 46 non-targeting guides, with 400 cells per guide across three
-cell lines. That gives \(400 \times 46 \times 3 = 55{,}200\) cells. A quick QC pass confirms the metrics that Arc published:
+cell lines. That gives $400 \times 46 \times 3 = 55{,}200$ cells. A quick QC pass confirms the metrics that Arc published:
 
 ![QC for control cells in each context.](figures/qc_panel.png){#fig-control-qc fig-alt="Four box plots compare UMIs, detected genes, mitochondrial count percentage and Good-Turing unseen mass across contexts A, B and C."}
 
