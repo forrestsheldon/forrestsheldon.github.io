@@ -3,3 +3,12 @@ freeze: true
 toc: true
 categories:
   - Virtual Cell
+comments:
+  giscus:
+    repo: forrestsheldon/forrestsheldon.github.io
+    repo-id: R_kgDOT-hAJg
+    category: Announcements
+    category-id: DIC_kwDOT-hAJs4DEcZr
+    mapping: pathname
+    reactions-enabled: true
+    input-position: bottom
