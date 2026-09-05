@@ -11,13 +11,12 @@ listing:
 ---
 
 An evolving record of work, thoughts and questions as I work through the 2026 Virtual Cell Challenge.
-I am joining the challenge as part of a communal effort to learn and writing this to clarify my own thoughts[^writing-to-learn] and share useful information I find along the way.
-I will do my best to avoid jargon and target the material to as wide an audience as possible.
+I am joining the challenge to learn and writing this to clarify my own thoughts[^writing-to-learn] and share useful information I find along the way.
 
-* Disclaimer I: I am neither a biologist, nor a bioinformatician, nor a virtual cell expert, so I am learning much of this material on the fly.
-* Disclaimer II: I am a physicist, so some of the material may be quite mathy.
-* Disclaimer III: I will use AI tools for a lot of the coding but strive to keep any code readable and concise.
-All of the prose will be bashed out by these fingers (with a bit of copyediting help).
+* Disclaimer I: I am learning much of this material on the fly.
+* Disclaimer II: I am/was a physicist, so some of the material may be quite mathy.
+* Disclaimer III: I will use AI tools for a lot of the coding so proceed with caution there.
+All of the prose will be bashed out by these fingers though (with a bit of copyediting help).
 
 I hope you enjoy the read.
 
