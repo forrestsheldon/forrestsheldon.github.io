@@ -1,0 +1,47 @@
+---
+title: "Baselines I: Linear Response"
+description: "A zero-shot linear baseline"
+draft: true
+categories:
+  - perturbation modelling
+  - linear models
+  - baselines
+---
+
+To start with a zero-shot baseline, we need a model that can be trained purely on data from a cell context.
+Linear response models are a perfect candidate. The idea is that by watching a system fluctuate around its stable state, we
+learn about the the systems allowed behavior. In this post, I'll cover the basics of linear response theory, then we will look
+at several variants applied to this years VCC data.
+
+## An Intuitive Approach to Linear Response
+
+Suppose we have a system moving around a stable state. Close to this state, the system obeys a local model that is some
+quadratic basin.
+If we watch the system fluctuate, whether due to its dynamics or due to noise, we get a point cloud whose
+shape approximates this basin.
+The covariance of our measurements gives us information about the restoring forces the system feels:
+directions that the system varies widely in are 'soft modes' with low restoring forces, while narrow directions are 'hard modes'
+with strong restoring forces.
+So, we expect that the covariance is inversely proportional to the 'force'.
+
+[INSERT FIGURE showing basin with system moving around (3 dimensions) -> point cloud with Covariance axes labeled] -> mean shift when we push in a single variable direction. Use 2D system with variances 1 and covariance 0.5 to illustrate]
+
+In equations, for a spring restoring force $-Kx$, and measurements with covariance $C$, then we can approximate the
+the dynamics with
+$$K \propto C^{-1}.$$
+In particular, if we we push on the system with force vector $h$, then the system will move to the new state,
+$$0 = -Kx + h \rightarrow x = K^{-1}h \rightarrow x\approx aCh$$
+where $a$ is some constant of proportionality. This is the linear response: pushing on a single gene $g$ gives us a response
+proportional to $C_{:g}$, the $g$th column of the covariance matrix. The constant of proportionality can be set by tuning on a
+validation set.
+
+This forms a perfect baseline method for zero-shot perturbation inference: it takes into account cell context by fitting a
+different covariance for each cell line and does not require any perturbation data to train. Of course, we expect the
+results to be correspondingly poor, but it gives us something interpretable to compare our later approaches to and build off of.
+For the rest of this post, I'll look at how well this works and variations that get us closer to the statistics of real data.
+
+## First Attempt: CIPHER
+
+The tool CIPHER [add line] is a straightforward application of linear response theory to perturbation data.
+
+

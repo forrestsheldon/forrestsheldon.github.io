@@ -1,0 +1,33 @@
+---
+title: "Evaluating Virtual Cell Models"
+description: "A review of the literature and how the VCC evaluation works"
+draft: true
+categories:
+  - introduction
+  - challenge 2026
+---
+
+## Where I think we are with virtual cell models
+
+As a TLDR:
+
+* Biology is slow and a computational model system that accurately predicted *new* results (a virtual cell) would greatly
+speed up the experiment cycle.
+* The problem is still data starved and recently money has started flowing into the commercial market to produce in-house
+datasets and models, i.e. we've entered an arms race to a useful virtual cell model.
+* At the same time, *even telling whether a model is working* turns out to be a thorny problem. We can see a faint picture
+where some virtual cell models are outperforming simple baselines like linear regression on some metrics, but that is
+changing quickly.
+* Successful metrics include positive and negative controls to establish the range of success and focus on subsets of genes
+that we expect to be differentially expressed, avoiding contributions from the mainy noisy genes that are not.
+
+For a quick review of the paper trail:
+
+### YEAR, Ahlman-Etze, Huber, Anders, TITLE
+
+They compared the predictions of deep learning models (MODELS) to a simple linear regression and showed that for predicting
+the effect of pairs of perturbed genes, the additive linear regression model outperformed the deep learning models. The
+interesting thing about their linear regression model was that they performed it in a PCA space as a latent representation
+of the cell state space and then found the best approximation to the perturbation in that space.
+
+### YEAR, AUTHORS, Systema

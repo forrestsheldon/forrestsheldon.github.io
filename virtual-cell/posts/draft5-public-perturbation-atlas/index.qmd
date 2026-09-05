@@ -1,0 +1,62 @@
+---
+title: "How Much Perturbation Information Is Already Public?"
+description: "A map of the public perturbation contexts and evaluation bridges available for a zero-shot challenge."
+draft: true
+categories:
+  - data exploration
+  - perturbation data
+  - challenge 2026
+---
+
+<!-- Central question: Although the VCC is zero-shot, how much relevant perturbation information already exists publicly? -->
+
+## Zero-shot does not mean data-free
+
+* TODO: Distinguish “no Challenge training set” from “no perturbation data exists.”
+* TODO: Define the evidence boundary: public human single-cell CRISPRi measurements with verified perturbation lists and provenance.
+* TODO: Avoid counting mirrors or convenience loaders as independent experiments.
+
+## The public perturbation-context atlas
+
+* TODO: Introduce the gene × dataset-context organization in the existing atlas.
+* TODO: Distinguish biological context from experimental dataset-context.
+* TODO: Explain why repeated named contexts such as K562 remain separate across studies and protocols.
+* TODO: Point to `reports/public-data-atlas/README.md` and `reports/benchmark-capacity/bridge_map.md` in the challenge repository.
+
+## The main anchors and bridges
+
+* TODO: Present Replogle K562 as the broad perturbation anchor.
+* TODO: Present VCC 2025 H1 as a challenge-relevant gene and assay bridge while preserving the current assay-compatibility uncertainty.
+* TODO: Introduce the other audited CRISPRi contexts without turning this into a dataset catalogue.
+* TODO: Show how shared perturbations connect contexts even when no context matches the anonymous VCC targets.
+
+<!-- Figure TODO: Dataset-context bridge graph with shared-perturbation counts as edge weights. -->
+
+## Analysis: how much coverage do we actually have?
+
+* TODO: Report the total audited perturbation universe from the regenerated atlas output.
+* TODO: Report how many perturbations are observed across multiple contexts.
+* TODO: Report overlap with Replogle and with the VCC 300-gene panel.
+* TODO: Include the appropriate coverage matrix or bridge representation.
+* TODO: State that these are nominal upper bounds before guide quality, knockdown, cell-count and response-strength filtering.
+
+<!-- Table TODO: Perturbation coverage by dataset-context, including Replogle overlap and VCC-300 overlap. -->
+
+<!-- Figure TODO: Gene × dataset-context coverage matrix highlighting repeated contexts and cross-context bridges. -->
+
+## An evaluation ladder we can build ourselves
+
+* TODO: Introduce the ladder as a sequence of increasingly difficult public-data evaluation problems.
+* TODO: E0 — sampling and metric ceiling.
+* TODO: E1 — oracle-response distribution generation.
+* TODO: E2 — cross-study K562 calibration.
+* TODO: E3a — pairwise within-study transfer.
+* TODO: E3b — multi-source within-study holdout.
+* TODO: E4 — Replogle-anchored cross-study transfer.
+* TODO: E5 — multi-source canonical-context holdout.
+* TODO: Keep implementation details in `reports/benchmark-capacity/evaluation_ladder.md` rather than reproducing them here.
+
+## The next question
+
+* TODO: Establish that public data support our own zero-shot evaluation problems without claiming equivalence to the hidden VCC contexts.
+* TODO: Ask whether the target controls themselves contain enough structure to predict how an intervention will propagate.

@@ -1,5 +1,5 @@
 ---
-title: "Exploring the Data I"
+title: "Exploring the Data I - Cell Lines"
 description: "A first look at this year's challenge and the control cell data."
 date: 2026-08-29
 categories:
@@ -134,6 +134,10 @@ context, I sample 400 cells from that context's controls and relabel them with t
 
 Most components sit close to the zero baseline with direction fidelity the clear exception. In one of my next posts (maybe 3 out),
 I will dive into the evaluation metrics to see how they work.
+
+I had also intended to include an artifical knockdown baseline, were we just knockdown the target gene expression, but it turns out
+that the evaluation metrics always neglect the target gene. We will have to wait for the linear response baseline for something
+more interesting than the controls.
 
 Thanks for reading!
 

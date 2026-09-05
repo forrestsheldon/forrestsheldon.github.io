@@ -1,0 +1,40 @@
+---
+title: "Can External Responses and Target Controls Work Together?"
+description: "A short outline for comparing controls-only inference with externally learned perturbation responses."
+draft: true
+categories:
+  - perturbation modelling
+  - linear models
+  - evaluation
+---
+
+<!-- Central question: Can an externally learned perturbation direction be adapted using the control structure of a new target context? -->
+
+## Main comparison
+
+* TODO: Compare controls-only inference or linear response with perturbation responses learned by linear regression from external data.
+* TODO: Evaluate both on the appropriate rungs of the public-data evaluation ladder.
+* TODO: Keep training data, biological-context holdouts and experimental dataset-context holdouts explicit.
+
+## Main idea
+
+* TODO: Use external perturbation data to estimate the intervention or response direction associated with target gene \(g\).
+* TODO: Use target controls to estimate how the new context transmits or modifies that response.
+* TODO: Define a simple combination rule before considering more flexible models.
+
+## Experiments to design
+
+* TODO: Specify controls-only, external-response-only and combined ablations.
+* TODO: Compare same-context cross-study calibration with true cross-context transfer.
+* TODO: Test sensitivity to perturbation coverage, measurement mismatch and context similarity.
+
+## Results to reserve
+
+* TODO: Add figures and tables only after the evaluation design and implementations are fixed.
+* TODO: Separate predictive gains from improved count-distribution generation.
+
+## Questions for the series
+
+* TODO: When does control covariance add useful context adaptation?
+* TODO: When does an external response direction transfer at all?
+* TODO: Which failures require nonlinear or learned representations beyond the linear comparison?

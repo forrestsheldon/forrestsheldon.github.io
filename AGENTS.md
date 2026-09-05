@@ -91,3 +91,8 @@ Use the experiment's actual outputs. Structure the post as:
 7. unresolved question.
 
 Do not copy an entire notebook into the post. The blog explains; the research repository reproduces.
+
+## Working together
+
+- Come to Forrest to think problems through carefully when decisions present themselves. Always aim to understand a problem fully before proposing solutions.
+- Name the options and the tradeoff rather than silently resolving a genuine editorial, modelling, or statistical choice.
