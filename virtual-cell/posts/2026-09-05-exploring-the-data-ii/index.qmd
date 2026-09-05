@@ -99,7 +99,7 @@ The largest effects are all negative and around $\log_2\mathrm{FC} \approx -2$ c
 Onto the perturbations. Below I've shown the number of differentially expressed genes across the 126 perturbations with at
 least 400 cells. The divisions between negligible, subtle and strong are simple thirds and you shouldn't read too much into them.
 The orange line shows the number of DE genes with $|\log_2\mathrm{FC}|$ above 0.5.
-![](figures/celleval2_response_spectrum_400.png){fig-alt="Perturbations ordered by the number of DE genes using a 400 cell comparison."}
+![](figures/celleval2_response_spectrum_400.png){width=75% fig-align="center" fig-alt="Perturbations ordered by the number of DE genes using a 400 cell comparison."}
 
 My first surprise is how many genes move.
 In a 10k gene universe, the strongest perturbations like METTL3 perturb about 80% of all genes and nearly 20% with $|\log_2\mathrm{FC}| > 0.5$.
@@ -193,7 +193,7 @@ Hybridizing proteins have similar perturbations. METTL3 and METTL14 are obligate
 different proteins that must be bound together to function. We would expect that knocking down either would give similar results and that
 is exactly what we see:
 
-![](figures/celleval2_mettl3_mettl14.png){fig-alt="Scatter of METTL3 versus METTL14 log2 fold changes; they correlate at 0.971, the highest of any perturbation pair, with 100% sign agreement."}
+![](figures/celleval2_mettl3_mettl14.png){width=55% fig-align="center" fig-alt="Scatter of METTL3 versus METTL14 log2 fold changes; they correlate at 0.971, the highest of any perturbation pair, with 100% sign agreement."}
 
 They are methyltransferases (they transfer methyl groups onto mRNA) that regulate mRNA stability, splicing and translation, which is also why they have such widespread effects.
 This pattern of similarity amongst complexes holds more widely, though to a lesser extent.
