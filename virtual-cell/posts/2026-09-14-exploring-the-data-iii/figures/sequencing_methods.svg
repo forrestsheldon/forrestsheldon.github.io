@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- reusable mRNA transcript, origin at 5' end, body spans local x 12..352 -->
+    <g id="tx">
+      <circle cx="0" cy="0" r="6" fill="#4a5a68"/>
+      <rect x="12" y="-8" width="340" height="16" rx="4" fill="#dbe0e6" stroke="#a7b0ba" stroke-width="1"/>
+      <text x="358" y="4" font-size="11" fill="#6b7681">AAAA</text>
+      <text x="2" y="-13" font-size="11" fill="#6b7681" text-anchor="middle">5&#8242;</text>
+      <text x="352" y="-13" font-size="11" fill="#6b7681" text-anchor="middle">3&#8242;</text>
+    </g>
+  </defs>
+
+  <!-- card -->
+  <rect x="1.5" y="1.5" width="897" height="557" rx="14" fill="#ffffff" stroke="#d9dde1"/>
+
+  <!-- title -->
+  <text x="30" y="37" font-size="17" font-weight="600" fill="#253039">Where each method reads the transcript</text>
+
+  <!-- reference transcript / legend -->
+  <use href="#tx" transform="translate(250,80)"/>
+  <text x="256" y="104" font-size="10" fill="#8b95a0" text-anchor="middle">5&#8242; cap</text>
+  <text x="432" y="104" font-size="10" fill="#8b95a0" text-anchor="middle">coding sequence</text>
+  <text x="578" y="104" font-size="10" fill="#8b95a0" text-anchor="middle">3&#8242; UTR</text>
+  <text x="628" y="104" font-size="10" fill="#8b95a0" text-anchor="middle">poly-A</text>
+  <line x1="30" y1="120" x2="870" y2="120" stroke="#e5e8eb" stroke-width="1"/>
+
+  <!-- ===================== Row 1: 3' tag ===================== -->
+  <rect x="24" y="140" width="852" height="84" rx="8" fill="#f7f8fa"/>
+  <text x="40" y="176" font-size="14" font-weight="600" fill="#253039">3&#8242; tag</text>
+  <text x="40" y="194" font-size="10.5" fill="#6b7681">10x 3&#8242; &#183; Replogle, Perturb-seq</text>
+  <use href="#tx" transform="translate(250,182)"/>
+  <rect x="500" y="174" width="102" height="16" fill="#3a6ea5" fill-opacity="0.20"/>
+  <line x1="577" y1="190" x2="590" y2="182" stroke="#3a6ea5" stroke-width="1"/>
+  <rect x="548" y="196" width="58" height="17" rx="4" fill="#3a6ea5"/>
+  <text x="577" y="208" font-size="8.5" fill="#ffffff" text-anchor="middle">BC + UMI</text>
+  <text x="650" y="171" font-size="11" fill="#3a4650">&#183; barcode + UMI at 3&#8242;</text>
+  <text x="650" y="188" font-size="11" fill="#3a4650">&#183; whole transcriptome</text>
+  <text x="650" y="205" font-size="11" fill="#3a4650">&#183; one cDNA read (R2)</text>
+
+  <!-- ===================== Row 2: 5' tag ===================== -->
+  <rect x="24" y="244" width="852" height="84" rx="8" fill="#ffffff"/>
+  <text x="40" y="280" font-size="14" font-weight="600" fill="#253039">5&#8242; tag</text>
+  <text x="40" y="298" font-size="10.5" fill="#6b7681">10x 5&#8242;</text>
+  <use href="#tx" transform="translate(250,286)"/>
+  <rect x="262" y="278" width="102" height="16" fill="#3a6ea5" fill-opacity="0.20"/>
+  <line x1="291" y1="294" x2="278" y2="286" stroke="#3a6ea5" stroke-width="1"/>
+  <rect x="262" y="300" width="58" height="17" rx="4" fill="#3a6ea5"/>
+  <text x="291" y="312" font-size="8.5" fill="#ffffff" text-anchor="middle">BC + UMI</text>
+  <text x="650" y="275" font-size="11" fill="#3a4650">&#183; barcode + UMI at 5&#8242;</text>
+  <text x="650" y="292" font-size="11" fill="#3a4650">&#183; enables V(D)J</text>
+  <text x="650" y="309" font-size="11" fill="#3a4650">&#183; one cDNA read (R2)</text>
+
+  <!-- ===================== Row 3: full-length ===================== -->
+  <rect x="24" y="348" width="852" height="84" rx="8" fill="#f7f8fa"/>
+  <text x="40" y="384" font-size="14" font-weight="600" fill="#253039">Full-length</text>
+  <text x="40" y="402" font-size="10.5" fill="#6b7681">Smart-seq2/3</text>
+  <use href="#tx" transform="translate(250,390)"/>
+  <rect x="262" y="382" width="340" height="16" fill="#4a9d7f" fill-opacity="0.22"/>
+  <text x="650" y="379" font-size="11" fill="#3a4650">&#183; reads full transcript</text>
+  <text x="650" y="396" font-size="11" fill="#3a4650">&#183; both ends = paired-end</text>
+  <text x="650" y="413" font-size="11" fill="#3a4650">&#183; low throughput (plate)</text>
+
+  <!-- ===================== Row 4: Flex probe ===================== -->
+  <rect x="24" y="452" width="852" height="84" rx="8" fill="#ffffff"/>
+  <text x="40" y="488" font-size="14" font-weight="600" fill="#253039">Probe capture</text>
+  <text x="40" y="506" font-size="10.5" fill="#6b7681">10x Flex &#183; VCC</text>
+  <use href="#tx" transform="translate(250,494)"/>
+  <rect x="430" y="485" width="62" height="18" rx="3" fill="#e6a06a" stroke="#d9772f" stroke-width="1"/>
+  <rect x="496" y="485" width="62" height="18" rx="3" fill="#e6a06a" stroke="#d9772f" stroke-width="1"/>
+  <line x1="494" y1="483" x2="494" y2="505" stroke="#b85f1f" stroke-width="2"/>
+  <text x="461" y="498" font-size="9" fill="#5a3a1c" text-anchor="middle">L</text>
+  <text x="527" y="498" font-size="9" fill="#5a3a1c" text-anchor="middle">R</text>
+  <line x1="532" y1="485" x2="532" y2="470" stroke="#3a6ea5" stroke-width="1"/>
+  <rect x="506" y="454" width="52" height="16" rx="4" fill="#3a6ea5"/>
+  <text x="532" y="465.5" font-size="8" fill="#ffffff" text-anchor="middle">BC+UMI</text>
+  <text x="650" y="483" font-size="11" fill="#3a4650">&#183; probe pair (L&#183;R), ligated</text>
+  <text x="650" y="500" font-size="11" fill="#3a4650">&#183; fixed gene panel</text>
+  <text x="650" y="517" font-size="11" fill="#3a4650">&#183; probe pair &#8800; paired-end</text>
+
+  <!-- bottom legend -->
+  <text x="30" y="548" font-size="10" fill="#8b95a0">10x paired-end run: R1 = barcode + UMI &#183; R2 = cDNA (one transcript read)</text>
+</svg>

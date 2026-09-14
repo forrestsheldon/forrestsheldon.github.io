@@ -1,0 +1,141 @@
+<!-- Single-source pipeline figure (included by draft4 §1). Inline SVG pills + HTML overlay with CSS hover tooltips.
+     Hover-note prose drafted by Claude (author discloses AI authorship); the "nuclei" note began as the author's
+     sentence, rewritten for accuracy. To change a note, edit its data-tip (and matching aria-label) in the .tip div below. -->
+
+```{=html}
+<style>
+#pipe-fig{position:relative;max-width:660px;margin:0 auto}
+#pipe-fig>svg{display:block;width:100%;height:auto}
+#pipe-fig .tip{position:absolute;cursor:help;border-radius:7px}
+#pipe-fig .tip:focus-visible{outline:2px solid #3a6ea5;outline-offset:1px}
+#pipe-fig .tip::after{content:attr(data-tip);position:absolute;z-index:20;top:calc(100% + 9px);width:240px;max-width:70vw;padding:9px 11px;border-radius:8px;background:#253039;color:#f4f6f8;font:12px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-style:normal;text-align:left;box-shadow:0 8px 28px rgba(20,30,40,.22);opacity:0;visibility:hidden;transition:opacity .06s ease;pointer-events:none}
+#pipe-fig .tip::before{content:"";position:absolute;z-index:21;top:calc(100% + 3px);border:6px solid transparent;border-bottom-color:#253039;opacity:0;visibility:hidden;transition:opacity .06s ease}
+#pipe-fig .tip.l::after{left:0}
+#pipe-fig .tip.r::after{right:0}
+#pipe-fig .tip.l::before{left:14px}
+#pipe-fig .tip.r::before{right:14px}
+#pipe-fig .tip:hover::after,#pipe-fig .tip:focus::after,#pipe-fig .tip:hover::before,#pipe-fig .tip:focus::before{opacity:1;visibility:visible}
+</style>
+<div id="pipe-fig" role="group" aria-label="Single-cell RNA-seq measurement pipeline, eight stages; hover or focus a pill for a plain-language note.">
+<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 800 800" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect x="1.5" y="1.5" width="797" height="797" rx="14" fill="#ffffff" stroke="#d9dde1"/>
+  <text x="30" y="34" font-size="16" font-weight="600" fill="#253039">The measurement pipeline: cells &#8594; counts</text>
+  <circle cx="96" cy="66" r="5" fill="#3a6ea5"/><text x="106" y="70" font-size="11" fill="#34404b">10x 3&#8242; (Replogle)</text>
+  <circle cx="268" cy="66" r="5" fill="#d9772f"/><text x="278" y="70" font-size="11" fill="#34404b">10x Flex (VCC)</text>
+  <circle cx="430" cy="66" r="5" fill="#8256a8"/><text x="440" y="70" font-size="11" fill="#34404b">Parse (Jiang)</text>
+  <circle cx="566" cy="66" r="5" fill="#4a9d7f"/><text x="576" y="70" font-size="11" fill="#34404b">Smart-seq (full-length)</text>
+  <line x1="30" y1="86" x2="770" y2="86" stroke="#e5e8eb" stroke-width="1"/>
+  <line x1="62" y1="120" x2="62" y2="708" stroke="#c3cad2" stroke-width="2"/>
+  <g fill="#a7b0ba">
+    <path d="M56,159 L68,159 L62,166 Z"/>
+    <path d="M56,243 L68,243 L62,250 Z"/>
+    <path d="M56,327 L68,327 L62,334 Z"/>
+    <path d="M56,411 L68,411 L62,418 Z"/>
+    <path d="M56,495 L68,495 L62,502 Z"/>
+    <path d="M56,579 L68,579 L62,586 Z"/>
+    <path d="M56,663 L68,663 L62,670 Z"/>
+  </g>
+  <g>
+    <rect x="84" y="104" width="684" height="76" rx="8" fill="#f7f8fa"/>
+    <rect x="84" y="272" width="684" height="76" rx="8" fill="#f7f8fa"/>
+    <rect x="84" y="440" width="684" height="76" rx="8" fill="#f7f8fa"/>
+    <rect x="84" y="608" width="684" height="76" rx="8" fill="#f7f8fa"/>
+  </g>
+  <g>
+    <circle cx="62" cy="120" r="13" fill="#4a5a68"/><text x="62" y="124" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">1</text>
+    <circle cx="62" cy="204" r="13" fill="#4a5a68"/><text x="62" y="208" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">2</text>
+    <circle cx="62" cy="288" r="13" fill="#4a5a68"/><text x="62" y="292" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">3</text>
+    <circle cx="62" cy="372" r="13" fill="#4a5a68"/><text x="62" y="376" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">4</text>
+    <circle cx="62" cy="456" r="13" fill="#4a5a68"/><text x="62" y="460" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">5</text>
+    <circle cx="62" cy="540" r="13" fill="#4a5a68"/><text x="62" y="544" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">6</text>
+    <circle cx="62" cy="624" r="13" fill="#4a5a68"/><text x="62" y="628" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">7</text>
+    <circle cx="62" cy="708" r="13" fill="#4a5a68"/><text x="62" y="712" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">8</text>
+  </g>
+  <text x="96" y="122" font-size="13" font-weight="600" fill="#253039">1 · Sample &amp; cell state</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="130" width="75" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="149">fresh</text>
+    <circle cx="154" cy="139" r="3.7" fill="#3a6ea5"/><circle cx="163" cy="139" r="3.7" fill="#4a9d7f"/>
+    <rect x="179" y="130" width="75" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="189" y="149">fixed</text>
+    <circle cx="237" cy="139" r="3.7" fill="#d9772f"/><circle cx="246" cy="139" r="3.7" fill="#8256a8"/>
+    <rect x="262" y="130" width="57" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="272" y="149">frozen</text>
+    <rect x="327" y="130" width="113" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="337" y="149">nuclei (snRNA)</text>
+  </g>
+  <text x="96" y="206" font-size="13" font-weight="600" fill="#253039">2 · Compartmentalization &amp; barcoding</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="214" width="137" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="233">GEMs / droplet</text>
+    <circle cx="216" cy="223" r="3.7" fill="#3a6ea5"/><circle cx="225" cy="223" r="3.7" fill="#d9772f"/>
+    <rect x="241" y="214" width="97" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="251" y="233">split-pool</text>
+    <circle cx="330" cy="223" r="3.7" fill="#8256a8"/>
+    <rect x="346" y="214" width="109" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="356" y="233">plate / FACS</text>
+    <circle cx="447" cy="223" r="3.7" fill="#4a9d7f"/>
+    <rect x="463" y="214" width="76" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="473" y="233">microwell</text>
+  </g>
+  <text x="96" y="290" font-size="13" font-weight="600" fill="#253039">3 · Transcript capture</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="298" width="158" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="317">poly-A (oligo-dT)</text>
+    <circle cx="228" cy="307" r="3.7" fill="#3a6ea5"/><circle cx="237" cy="307" r="3.7" fill="#4a9d7f"/><circle cx="246" cy="307" r="3.7" fill="#8256a8"/>
+    <rect x="262" y="298" width="159" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="272" y="317">probe hyb + ligation</text>
+    <circle cx="413" cy="307" r="3.7" fill="#d9772f"/>
+    <rect x="429" y="298" width="128" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="439" y="317">random priming</text>
+    <circle cx="549" cy="307" r="3.7" fill="#8256a8"/>
+  </g>
+  <text x="96" y="374" font-size="13" font-weight="600" fill="#253039">4 · Conversion to sequenceable molecule</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="382" width="158" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="401">RT → cDNA (± TSO)</text>
+    <circle cx="228" cy="391" r="3.7" fill="#3a6ea5"/><circle cx="237" cy="391" r="3.7" fill="#4a9d7f"/><circle cx="246" cy="391" r="3.7" fill="#8256a8"/>
+    <rect x="262" y="382" width="165" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="272" y="401">ligated probe (no RT)</text>
+    <circle cx="419" cy="391" r="3.7" fill="#d9772f"/>
+  </g>
+  <text x="96" y="458" font-size="13" font-weight="600" fill="#253039">5 · Amplification</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="466" width="81" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="485">PCR</text>
+    <circle cx="142" cy="475" r="3.7" fill="#3a6ea5"/><circle cx="151" cy="475" r="3.7" fill="#d9772f"/><circle cx="160" cy="475" r="3.7" fill="#8256a8"/><circle cx="169" cy="475" r="3.7" fill="#4a9d7f"/>
+    <rect x="185" y="466" width="88" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="195" y="485">IVT (linear)</text>
+  </g>
+  <text x="96" y="542" font-size="13" font-weight="600" fill="#253039">6 · Library prep</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="550" width="171" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="569">fragment + adapters</text>
+    <circle cx="241" cy="559" r="3.7" fill="#3a6ea5"/><circle cx="250" cy="559" r="3.7" fill="#d9772f"/><circle cx="259" cy="559" r="3.7" fill="#8256a8"/>
+    <rect x="275" y="550" width="109" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="285" y="569">tagmentation</text>
+    <circle cx="376" cy="559" r="3.7" fill="#4a9d7f"/>
+  </g>
+  <text x="96" y="626" font-size="13" font-weight="600" fill="#253039">7 · Sequencing (Illumina)</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="634" width="220" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="653">R1 = barcode+UMI · R2 = cDNA</text>
+    <circle cx="290" cy="643" r="3.7" fill="#3a6ea5"/><circle cx="299" cy="643" r="3.7" fill="#d9772f"/><circle cx="308" cy="643" r="3.7" fill="#8256a8"/>
+    <rect x="324" y="634" width="128" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="334" y="653">both mates cDNA</text>
+    <circle cx="444" cy="643" r="3.7" fill="#4a9d7f"/>
+  </g>
+  <text x="96" y="682" font-size="10.5" font-style="italic" fill="#7a8590">depth = reads / cell — the sampling knob</text>
+  <text x="96" y="710" font-size="13" font-weight="600" fill="#253039">8 · Quantification</text>
+  <g font-size="11" fill="#34404b">
+    <rect x="96" y="718" width="227" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="106" y="737">genome / transcriptome align</text>
+    <circle cx="297" cy="727" r="3.7" fill="#3a6ea5"/><circle cx="306" cy="727" r="3.7" fill="#8256a8"/><circle cx="315" cy="727" r="3.7" fill="#4a9d7f"/>
+    <rect x="331" y="718" width="128" height="30" rx="7" fill="#fff" stroke="#cdd3da"/><text x="341" y="737">probe-set match</text>
+    <circle cx="451" cy="727" r="3.7" fill="#d9772f"/>
+  </g>
+  <text x="96" y="766" font-size="10.5" font-style="italic" fill="#7a8590">→ cell calling → UMI collapse → gene × cell count matrix</text>
+</svg>
+  <div class="tip l" tabindex="0" data-tip="The simplest path, and the one that preserves RNA best — nothing sits around to degrade. You accept the constraint of processing every sample live, in one session." aria-label="fresh: The simplest path, and the one that preserves RNA best — nothing sits around to degrade. You accept the constraint of processing every sample live, in one session." style="left:12.000%;top:16.250%;width:9.375%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Fixing halts the cell so its RNA stops changing the instant you sample it. That lets you store, ship, and batch many samples together and process them as one — which tames the operator- and day-to-day variation that plagues big screens." aria-label="fixed: Fixing halts the cell so its RNA stops changing the instant you sample it. That lets you store, ship, and batch many samples together and process them as one — which tames the operator- and day-to-day variation that plagues big screens." style="left:22.375%;top:16.250%;width:9.375%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Freezing buys time and reach: bank a sample now, process it later, or collect across weeks and sites, then run everything together. The cost — some fragile transcripts shear during freeze–thaw." aria-label="frozen: Freezing buys time and reach: bank a sample now, process it later, or collect across weeks and sites, then run everything together. The cost — some fragile transcripts shear during freeze–thaw." style="left:32.750%;top:16.250%;width:7.125%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Some tissues — brain, muscle, fat — won't dissociate into intact cells, and the enzymes that break them apart can switch on stress genes. Isolating nuclei sidesteps both problems and even works on frozen tissue, though you then read mostly nuclear, often unspliced, RNA rather than the mature cytoplasmic pool." aria-label="nuclei (snRNA): Some tissues — brain, muscle, fat — won't dissociate into intact cells, and the enzymes that break them apart can switch on stress genes. Isolating nuclei sidesteps both problems and even works on frozen tissue, though you then read mostly nuclear, often unspliced, RNA rather than the mature cytoplasmic pool." style="left:40.875%;top:16.250%;width:14.125%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Why droplets: they turn one reaction into millions of parallel ones, so you can barcode tens of thousands of cells cheaply per run. The catch — each droplet captures only a slice of a cell's RNA." aria-label="GEMs / droplet: Why droplets: they turn one reaction into millions of parallel ones, so you can barcode tens of thousands of cells cheaply per run. The catch — each droplet captures only a slice of a cell's RNA." style="left:12.000%;top:26.750%;width:17.125%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Barcoding by pooling and splitting needs no special instrument — just plates and pipettes — so labs can scale to huge cell numbers cheaply. Each round adds a barcode; the combination identifies the cell. Parse and SPLiT-seq use it." aria-label="split-pool: Barcoding by pooling and splitting needs no special instrument — just plates and pipettes — so labs can scale to huge cell numbers cheaply. Each round adds a barcode; the combination identifies the cell. Parse and SPLiT-seq use it." style="left:30.125%;top:26.750%;width:12.125%;height:3.750%"></div>
+  <div class="tip r" tabindex="0" data-tip="Sorting one cell per well trades throughput for depth and control: you sequence far fewer cells, but each one deeply and individually — the setup full-length methods need." aria-label="plate / FACS: Sorting one cell per well trades throughput for depth and control: you sequence far fewer cells, but each one deeply and individually — the setup full-length methods need." style="left:43.250%;top:26.750%;width:13.625%;height:3.750%"></div>
+  <div class="tip r" tabindex="0" data-tip="A cheaper, gentler alternative to droplets: cells drop into a grid of wells by gravity, sparing them the stress of sorting while still barcoding thousands at a time. BD Rhapsody and Seq-Well use it." aria-label="microwell: A cheaper, gentler alternative to droplets: cells drop into a grid of wells by gravity, sparing them the stress of sorting while still barcoding thousands at a time. BD Rhapsody and Seq-Well use it." style="left:57.875%;top:26.750%;width:9.500%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Priming on the poly-A tail selectively grabs mature mRNA and ignores the vastly more abundant ribosomal RNA — the reason it dominates single-cell work. It does skip the minority of transcripts that carry no tail." aria-label="poly-A (oligo-dT): Priming on the poly-A tail selectively grabs mature mRNA and ignores the vastly more abundant ribosomal RNA — the reason it dominates single-cell work. It does skip the minority of transcripts that carry no tail." style="left:12.000%;top:37.250%;width:19.750%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="DNA probe pairs base-pair to adjacent spots on a target mRNA; a ligase joins them into one molecule only when both bind cleanly. You sequence that joined probe, not the RNA — so it works on fixed, even degraded samples, but only sees genes the panel targets." aria-label="probe hyb + ligation: DNA probe pairs base-pair to adjacent spots on a target mRNA; a ligase joins them into one molecule only when both bind cleanly. You sequence that joined probe, not the RNA — so it works on fixed, even degraded samples, but only sees genes the panel targets." style="left:32.750%;top:37.250%;width:19.875%;height:3.750%"></div>
+  <div class="tip r" tabindex="0" data-tip="Random primers land all along a transcript, so you capture RNA with no poly-A tail (histones, many non-coding RNAs) and read the full body more evenly — useful when the 3′ end alone won't do." aria-label="random priming: Random primers land all along a transcript, so you capture RNA with no poly-A tail (histones, many non-coding RNAs) and read the full body more evenly — useful when the 3′ end alone won't do." style="left:53.625%;top:37.250%;width:16.000%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="RNA degrades fast, and no method amplifies it directly, so reverse transcription copies it into stable cDNA first. A template-switch oligo (TSO) can tag the far end, which unlocks 5′ and full-length reads." aria-label="RT → cDNA (± TSO): RNA degrades fast, and no method amplifies it directly, so reverse transcription copies it into stable cDNA first. A template-switch oligo (TSO) can tag the far end, which unlocks 5′ and full-length reads." style="left:12.000%;top:47.750%;width:19.750%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="The probes already carry a known sequence, so nothing needs reverse transcription — you amplify and sequence the ligated DNA probe directly. Counts then track how cleanly probes bound their targets, not cDNA synthesis." aria-label="ligated probe (no RT): The probes already carry a known sequence, so nothing needs reverse transcription — you amplify and sequence the ligated DNA probe directly. Counts then track how cleanly probes bound their targets, not cDNA synthesis." style="left:32.750%;top:47.750%;width:20.625%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="A single cell holds far too little material to sequence, so PCR doubles it each cycle until enough piles up. Doubling also compounds any early bias — the reason UMIs exist, to count original molecules, not their copies." aria-label="PCR: A single cell holds far too little material to sequence, so PCR doubles it each cycle until enough piles up. Doubling also compounds any early bias — the reason UMIs exist, to count original molecules, not their copies." style="left:12.000%;top:58.250%;width:10.125%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Copying every molecule straight from the original, rather than copying the copies, keeps amplification bias low — you trade PCR's speed for more faithful counts. CEL-seq2 uses it." aria-label="IVT (linear): Copying every molecule straight from the original, rather than copying the copies, keeps amplification bias low — you trade PCR's speed for more faithful counts. CEL-seq2 uses it." style="left:23.125%;top:58.250%;width:11.000%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Sequencers read only short stretches, so long cDNA gets chopped down and fitted with adapters that let each piece bind the flow cell and prime sequencing." aria-label="fragment + adapters: Sequencers read only short stretches, so long cDNA gets chopped down and fitted with adapters that let each piece bind the flow cell and prime sequencing." style="left:12.000%;top:68.750%;width:21.375%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="One Tn5 enzyme cuts and tags in a single step, reaching a finished library faster and from less input than separate fragmenting and ligating — the reason low-input, full-length methods like Smart-seq favor it." aria-label="tagmentation: One Tn5 enzyme cuts and tags in a single step, reaching a finished library faster and from less input than separate fragmenting and ligating — the reason low-input, full-length methods like Smart-seq favor it." style="left:34.375%;top:68.750%;width:13.625%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Every read must answer two questions — which cell? which transcript? — so the run splits the labor: read 1 spells out the cell barcode and UMI, read 2 the cDNA. Only one read carries transcript, so a tagging assay runs paired-end yet never reads both ends of the molecule." aria-label="R1 = barcode+UMI · R2 = cDNA: Every read must answer two questions — which cell? which transcript? — so the run splits the labor: read 1 spells out the cell barcode and UMI, read 2 the cDNA. Only one read carries transcript, so a tagging assay runs paired-end yet never reads both ends of the molecule." style="left:12.000%;top:79.250%;width:27.500%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Putting real sequence on both ends lets you see where a fragment starts and stops, which resolves splice junctions and isoforms — detail a single 3′ tag never reaches, and the whole reason to run full-length." aria-label="both mates cDNA: Putting real sequence on both ends lets you see where a fragment starts and stops, which resolves splice junctions and isoforms — detail a single 3′ tag never reaches, and the whole reason to run full-length." style="left:40.500%;top:79.250%;width:16.000%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="Raw reads mean nothing until you know which gene they came from, so alignment maps each read onto the genome or transcriptome (CellRanger, STARsolo, kallisto, alevin-fry) and tallies it to a gene." aria-label="genome / transcriptome align: Raw reads mean nothing until you know which gene they came from, so alignment maps each read onto the genome or transcriptome (CellRanger, STARsolo, kallisto, alevin-fry) and tallies it to a gene." style="left:12.000%;top:89.750%;width:28.375%;height:3.750%"></div>
+  <div class="tip l" tabindex="0" data-tip="With a fixed panel you already know every sequence worth counting, so matching reads to the probe list — no genome to search — makes quantification fast, cheap, and unambiguous." aria-label="probe-set match: With a fixed panel you already know every sequence worth counting, so matching reads to the probe list — no genome to search — makes quantification fast, cheap, and unambiguous." style="left:41.375%;top:89.750%;width:16.000%;height:3.750%"></div>
+</div>
+```

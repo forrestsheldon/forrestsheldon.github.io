@@ -1,0 +1,209 @@
+---
+title: "VCC26: Exploring the Data III - Sequencing and External Datasets"
+description: "Sequencing as a sampling process, what a batch effect really is, and which public perturbation datasets we can actually compare."
+date: 2026-09-14
+categories:
+  - data exploration
+  - measurement models
+  - perturbation data
+  - challenge 2026
+---
+
+<!-- Central question: If sequencing is a sampling process, what is a "batch effect" in the measurement model, and when are we allowed to treat two perturbation experiments as measurements of the same thing? -->
+
+In biology the measurement is part of the experiment. That can be hard to grasp coming from fields where interpreting experiments
+is more direct and is one of the first things to trip up incoming data scientists and ML researchers.
+
+For biologists the way around this is to put everything in one experiment and then focus on contrasts. That is not an option
+for applying ML. Getting many different experiments to talk to one another might be *the* primary challenge.
+The zero-shot nature of the 2026 challenge puts this center-stage: we need to find ways to unify the results of many different
+cellular measurements into one virtual cell model.
+
+In this post, I am going to talk about sequencing, how we can model it as a sampling process, and what data
+is out there to make our comparisons.
+
+## From cells to counts: sequencing as sampling
+
+There are many, many ways to go from a plate of cells to a count matrix. I had Claude put together the figure below
+summarising the possible ways of running each step of a sequencing experiment. Each pill has a hovertext explanation
+(written by Claude).
+
+Loosely we:
+
+1. **Prepare the cells** — fresh, fixed, or frozen; whole cells or extracted nuclei.
+2. **Separate the cells and give each a unique cell barcode** — in droplets, in wells, or through rounds of split-pool labelling.
+3. **Capture the mRNA** — bind transcripts through their poly-A tail or with targeted probes.
+4. **Convert the mRNA into complementary DNA (cDNA)** by reverse transcription (RT), attaching the cell barcode and a unique molecular identifier (UMI) to each captured molecule. All mRNA from a cell shares the same cell barcode, but each molecule gets a different UMI.
+5. **Amplify the cDNA** many times to create enough material to sequence.
+6. **Break the cDNA into shorter fragments** and attach sequencing adapters.
+7. **Sequence the fragments.**
+8. **Post-process** — map each fragment to a gene and cell, then collapse fragments sharing a UMI into a single molecule.
+
+You can spend a moment browsing the figure to get an idea of the variety of approaches to each of these steps.
+<!-- Pipeline flow figure (single source: figures/_pipeline.qmd). -->
+
+{{< include figures/_pipeline.qmd >}}
+
+Sequencing has several more variations than listed here. My brief
+summary is:
+
+* 3'/5'/full-length designates the part of the transcript that attaches to the UMI-barcode. In 3'/5', the UMI-barcode is attached to
+the 3'/5' end. In 3' it is at the start, so every cDNA carries the UMI. In 5' and modern full-length it is at the end, so only completely
+transcribed cDNA carries the UMI (partials do not). After fragmentation, 3' and 5' only keep the fragments that carry the UMI/barcode,
+while in full-length all fragments are kept. This is why full-length sequencing gives more information about isoforms and splicing but UMI
+collapse can only be applied to the 5' end fragments.
+* Probe-capture, like 10X Flex, uses paired DNA probes that bind to neighboring target sequences on the mRNA. Rather than capturing any poly-A
+tail, they target specific sequences allowing researchers to only capture a subset of molecules and not waste sequencing.
+Probes that bind to target mRNA are fused (ligated) together and the joined probes are then what is sequenced.
+* Single-/paired-end sequencing refers to how the kept fragments are read by the sequencer. Single-end gives one read, from the
+barcoded (Read 1) end of the fragment. Paired-end does a read from each end of the fragment. This is usually a short read for the UMI-barcode and then a 
+long read from the opposite end to read the fragment. Because the barcode and the transcript sit at opposite ends, a 3'/5' assay needs paired-end reads to recover both — a single read would return only the barcode. Paired reads can give us better alignment and more information about isoforms/splicing
+but it means we spend more sequencing on each fragment rather than capturing fragments more widely.
+
+What this should convey is that there is a tremendous amount of technical variation in how the count matrix is prepared
+and any focus on biological variation will have to take separating these technical effects out seriously.
+This is the core reason why it is so difficult to integrate two datasets together: each one is filtered through a different
+experimental process that puts the biological variation in each in different coordinates.
+
+## What is a "batch effect," really?
+
+When you look at two different scRNAseq datasets, the first step is usually to look for evidence of "batch effects" which
+are features of the experiments that make them difficult to compare.
+We can decompose this into a few buckets:
+
+* Measurement/sequencing - differences in sequencing depth, gene capture efficiency, the gene panel and many other
+choices as to how the experiment was run can lead to differences in what the counts represent.
+* Cell composition - The experiments contain different mixtures of cell states. This is usually what we want to observe but
+when combined with measurement differences it means the two are confounded.
+* Intangibles - scRNAseq is known for less tangible reasons for variation: operator to operator differences, reagent lots,
+jamming in the sorter etc. Even in datasets matched across sequencing and cell composition, we can still see differences.
+
+In the next section, we'll do the best we can to produce a measurement model that separates these effects.
+
+## A measurement model
+
+Let's start translating this to math. The framing below — separating measurement from expression and starting from a Poisson measurement model — follows Sarkar and Stephens.^[Abhishek Sarkar and Matthew Stephens (2021), "Separating measurement and expression models clarifies confusion in single-cell RNA sequencing analysis," *Nature Genetics* 53, 770–777. <https://doi.org/10.1038/s41588-021-00873-4>] 
+
+1. **Step 0: Underlying Biology** We begin with a pool of mRNA where each cell possesses $M_c$ molecules with abundances
+   $\pi_{cg}$ so that $\sum_g \pi_{cg} = 1$ and the number of mRNA from gene $g$ is $M_{cg} = M_c \pi_{cg}$. Their values
+   are decided by the distribution of cell states going into the experiment and the preparation the sample undergoes (for example
+   whether the cells are fresh/fixed or whether the nuclei have been extracted).
+2. **Step 1: Capture** Each molecule is *captured* (i.e. labelled with a cell barcode and UMI) with a gene specific probability $e_g$.
+   This is gene specific because the capture chemistry can depend on things like GC content and
+   length. After this, we are left with a pool of $U_{cg}$ molecules that follows
+   $$U_{cg} \sim \operatorname{Binomial}(M_{cg}, e_g) \xrightarrow[\;e_g \ll 1\;]{} \operatorname{Poisson}(M_{cg}\, e_g) = \operatorname{Poisson}(M_c\, e_g\, \pi_{cg}).$$
+   The last step is the usual rare event limit of the binomial distribution.
+3. **Step 2: Amplification** Each UMI'd and barcoded molecule $u$ becomes $A_{cgu}$ molecules via a branching process that gives
+   us enough material to sample.
+4. **Step 3: Sequencing** In our pool of $T = \sum_{cgu} A_{cgu}$ molecules we sample $N$ which sets the sequencing depth. We
+   can model this exactly by drawing from an urn without replacement which is distributed as a multivariate hypergeometric RV.
+   If $N \ll T$ then sampling does not change the distribution of molecules in the pool by that much and we can approximate this
+   as a multinomial sampling process^[F. William Townes, Stephanie C. Hicks, Martin J. Aryee and Rafael A. Irizarry (2019), "Feature selection and dimension reduction for single-cell RNA-Seq based on a multinomial model," *Genome Biology* 20:295. <https://doi.org/10.1186/s13059-019-1861-6>] where the exact numbers of each molecule, $A_{cgu}$, are replaced by their relative abundances
+   $\frac{A_{cgu}}{T}$. Finally when $N$ is large, we can approximate the multinomial by independent Poisson distributions^[Which
+   goes by the wonderful name *Poissonisation* <https://mpaldridge.github.io/blog/poissonisation.html>] where the number of copies
+   $R_{cgu}$ sequenced from molecule $u$ are distributed as
+   $$R_{cgu} \sim \operatorname{Poisson}\left(\frac{N}{T} A_{cgu}\right).$$
+   This is just a thinning of the amplified counts by $r = \frac{N}{T} \ll 1$.
+5. **Step 4: UMI Collapse** When we assign counts, we do so as
+   $Y_{cg} = \# \{u : \text{at least one copy of molecule } u \text{ was sequenced}\}$.
+   From our distribution for $R_{cgu}$ we have $P(R_{cgu} > 0) = 1-\exp(-r A_{cgu}) =: d_{cgu}$. The next step is a bit more technical and left
+   to an appendix below. The gist is that we can replace $d_{cgu}$ by its average value over the amplification distribution $\bar{d}_{cg}$.
+   Then by making the same Poissonisation argument for $U_{cg}$ we can obtain
+   $$Y_{cg} \sim \operatorname{Poisson}(\bar{d}_{cg}\, e_g\, M_c\, \pi_{cg}).$$
+   The average $\bar{d}_{cg}$ takes into account biases between cell and gene specific effects. If we assume that these are 
+   independent we can write this as a rank one product, $\bar{d}_{cg} = \phi_c \gamma_g$ which gives us the final form
+   $$Y_{cg} \sim \operatorname{Poisson}(\phi_c\, \gamma_g\, e_g\, M_c\, \pi_{cg}) = \operatorname{Poisson}(s_c\, f_g\, \pi_{cg}), \qquad s_c = \phi_c M_c,\ \ f_g = \gamma_g e_g.$$
+
+This is our final result, which gives us a decomposition into technical effects captured by the cell specific
+size factor $s_c$ and the gene specific $f_g$
+and biological variation in $\pi_{cg}$, the relative abundances of each molecular species in the cell.
+The model tells us what comparisons are meaningful in a count matrix:
+
+* Comparisons between cells need to be depth corrected to compensate for differences in $s_c$.
+* Comparisons between genes are confounded by differences in $f_g$.
+* Depth corrected ratios between cells in the same gene allow $f_g$ to cancel and depend on the underlying biology $\pi_{cg}$ only.
+* Comparisons between experiments must contend with differences in both $s_c$ and $f_g$. This is the integration problem we will
+talk about in the next section.
+
+Lastly, the model predicts that if we collect cells in the same state ($\pi_{cg}$ constant) at matched depth, counts for each gene
+should be Poisson distributed which means that the variance is equal to the mean. Overdispersion (when the variance is greater than the mean)
+is a sign of variation in cell state.^[Valentine Svensson (2020), "Droplet scRNA-seq is not zero-inflated," *Nature Biotechnology* 38, 147–150. <https://doi.org/10.1038/s41587-019-0379-5>] It should be said that $\pi_{cg}$ constant is a very restrictive definition of cell state
+but it is a start.
+
+## Why integrating two experiments needs overlapping cell states
+
+The integration problem is that, from counts alone an experiment A vs. experiment B difference is explained equally well by
+differences in $f_g$ or differences in $\pi_{cg}$.
+To get around this, integration methods need an 'anchor' population of cells that are assumed to have equal $\pi_{cg}$.^[Laleh Haghverdi, Aaron T. L. Lun, Michael D. Morgan and John C. Marioni (2018), "Batch effects in single-cell RNA-sequencing data are corrected by matching mutual nearest neighbors," *Nature Biotechnology* 36, 421–427. <https://doi.org/10.1038/nbt.4091>]
+This allows us to pin down the ratio $f_g^{(A)}/f_g^{(B)}$ and translate between the two experiments.
+If two experiments do not have shared cell types/states, then there is not a principled way to do this and most methods
+just rely on nearest neighbor distance in the confounded space.
+
+## What's actually out there, and what it lets us compare
+
+Now that we know what we need to do to actually use other datasets, let's see what's out there.
+I had codex search the perturbation databases for CRISPRi datasets and had it summarize what it found below.^[Sources for the datasets below: Nadig et al. (2025), *Nature Genetics*, GEO GSE264667, <https://doi.org/10.1038/s41588-025-02169-3>; Jiang et al. (2025), *Nature Cell Biology*, <https://doi.org/10.1038/s41556-025-01622-z>; McFaline-Figueroa et al. (2024), *Cell Genomics*, <https://doi.org/10.1016/j.xgen.2023.100487>.]
+The most important external dataset is the Replogle 2022 genome wide screen in K562 (a cancer cell line from a patient with leukemia).^[Replogle et al. (2022), *Cell*. <https://doi.org/10.1016/j.cell.2022.05.013>]
+While it does not overlap the VCC cells in cell line or sequencing method, it covers 272 of the 300 perturbations selected
+for this year's competition, which is the largest overlap by an order of magnitude.
+
+| Study | Cell line | Tissue | Assay | Perturbations | VCC-300 targets | Perturbed cells | Median cells/pert |
+|---|---|---|---|---:|---:|---:|---:|
+| Replogle 2022 | K562 | blood (CML) | 10x Perturb-seq | 9,870 | 272 | 1,960,878 | 182 |
+| Replogle 2022 | RPE1 | retina | 10x Perturb-seq | 2,393 | 0 | 236,429 | 72 |
+| Nadig 2025 | HepG2 | liver | 10x Perturb-seq | 2,393 | 0 | 140,497 | 45 |
+| Nadig 2025 | Jurkat | blood (T-ALL) | 10x Perturb-seq | 2,393 | 0 | 250,943 | 83 |
+| Jiang 2025 | A549 | lung | Parse Perturb-seq | 218 | 9 | 197,627 | 676 |
+| Jiang 2025 | MCF7 | breast | Parse Perturb-seq | 218 | 9 | 249,726 | 859 |
+| Jiang 2025 | HT29 | colon | Parse Perturb-seq | 218 | 9 | 340,940 | 1,148 |
+| Jiang 2025 | HAP1 | bone marrow | Parse Perturb-seq | 218 | 9 | 261,477 | 884 |
+| Jiang 2025 | BxPC3 | pancreas | Parse Perturb-seq | 218 | 9 | 296,666 | 989 |
+| Jiang 2025 | K562 | blood (CML) | Parse Perturb-seq | 218 | 9 | 197,771 | 581 |
+| McFaline 2024 | A172 | brain (GBM) | sci-Plex-GxE | 522 | 23 | 230,478 | 422 |
+| McFaline 2024 | T98G | brain (GBM) | sci-Plex-GxE | 522 | 23 | 207,424 | 379 |
+| McFaline 2024 | U87MG | brain (GBM) | sci-Plex-GxE | 522 | 23 | 232,326 | 428 |
+| VCC 2025 | H1 | embryonic stem | 10x Flex | 150 | 13 | 183,097 | 1,045 |
+
+: Single-gene CRISPRi perturbation coverage across public dataset-contexts. {#tbl-perturbation-coverage}
+
+## An evaluation ladder we can build ourselves
+
+Using external datasets relies on how well we can build bridges across the technical and biological differences that
+exist between them. Rather than jumping straight to the hardest comparisons, we can use the available datasets to
+build up progressively more difficult evaluations by being flexible over which genes and cell lines we compare.
+The table below gives a ladder of evaluations that we can build up to test our ability to generalize.
+
+| Rung | Held fixed | Varies | Isolates | Example data |
+|---|---|---|---|---|
+| 1 — same experiment, split | cell line, method, batch | held-out perturbations | sampling / metric ceiling | a dense single context (Replogle K562; H1) |
+| 2 — same cell line, different sequencing | biology ($\pi$) | method ($f_g$) | measurement batch effect | K562: Replogle (10x) × Jiang (Parse), 187 shared genes |
+| 3 — same sequencing, different cell line | method ($f_g$) | biology ($\pi$) | biological transfer | Jiang's 6 lines; McFaline's 3 GBM lines; Replogle K562↔RPE1; Nadig HepG2↔Jurkat |
+| 4 — different sequencing + different cell line | nothing | both | the full problem (≈ VCC zero-shot task) | Replogle K562 → Nadig / McFaline / Jiang non-K562 |
+
+: The evaluation ladder — progressively harder public-data comparisons, ordered by what changes between the data we fit on and the data we predict. {#tbl-eval-ladder}
+
+Alright, that will have to do for this post. For the next, I am going to look at zero-shot baselines and do another that goes
+into a deeper dive on the phenomenology of perturbation responses. 
+
+## Appendix: UMI collapse
+
+From step 5, the counts we attribute to a cell and gene after UMI collapse will be
+$$Y_{cg} = \sum_{u=1}^{U_{cg}} B_{cgu}(A_{cgu})$$
+where $B_{cgu}(A_{cgu})$ is a Bernoulli random variable that depends on the random amplification $A_{cgu}$
+and is 1 with probability $d_{cgu} = 1-\exp(-r A_{cgu})$.
+Dropping subscripts for convenience, we want to calculate
+$$E_Y[z^Y] = E_U[E_{A|U}[E_{B|A,U}[z^{\sum_{u=1}^U B_u(A_u)}]]].$$
+In the above we have used that $Y$ is a deterministic function of the random variables $U, A_u, B_u$ and we've 
+unrolled the expectation into a few steps. 
+Calculating outwards from the innermost expectation,
+$$E_{B|A,U}[z^{\sum_{u=1}^U B_u(A_u)}] = \prod_{u=1}^U (1 + d(A_u)(z-1))$$
+where we have used that the Bernoulli random variables are independent.
+Acting with the next expectation,
+$$E_{A|U}[\prod_{u=1}^U (1 + d(A_u)(z-1))] = (1 + \bar{d}(z-1))^U, \quad \bar{d} = E_A[d_u].$$
+Finally we take the expectation over $U\sim \operatorname{Poisson}(\mu)$ in the rare-event/Poisson limit,
+$$E_U[(1 + \bar{d}(z-1))^U] = e^{\mu \bar{d}(z-1)}.$$
+This is a Poisson generating function with parameter $\mu \bar{d}$. Adding back in all of the subscripts
+and $\mu_{cg} = M_c e_g \pi_{cg}$ we have
+$$Y_{cg} \sim \operatorname{Poisson}(\bar{d}_{cg}\, M_c\, e_g\, \pi_{cg}).$$
+
+
