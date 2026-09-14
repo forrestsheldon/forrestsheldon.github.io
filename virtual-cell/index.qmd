@@ -11,12 +11,7 @@ listing:
 ---
 
 An evolving record of work, thoughts and questions as I work through the 2026 Virtual Cell Challenge.
-I am joining the challenge to learn and writing this to clarify my own thoughts[^writing-to-learn] and share useful information I find along the way.
-
-* Disclaimer I: I am learning much of this material on the fly.
-* Disclaimer II: I am/was a physicist, so some of the material may be quite mathy.
-* Disclaimer III: I will use AI tools for a lot of the coding so proceed with caution there.
-All of the prose will be bashed out by these fingers though (with a bit of copyediting help).
+In the spirit of William Zinsser's excellent *Writing to Learn*[^writing-to-learn] I am writing this to clarify my own thoughts and share useful information I find along the way.
 
 I hope you enjoy the read.
 
