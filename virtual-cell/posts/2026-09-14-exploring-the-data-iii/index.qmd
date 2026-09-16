@@ -142,18 +142,18 @@ just rely on nearest neighbor distance in the confounded space.
 ## What's actually out there, and what it lets us compare
 
 Now that we know what we need to do to actually use other datasets, let's see what's out there.
-I had codex search the perturbation databases for CRISPRi datasets and had it summarize what it found below.^[Sources for the datasets below: Replogle et al. (2022), *Cell*. <https://doi.org/10.1016/j.cell.2022.05.013>; Nadig et al. (2025), *Nature Genetics*, GEO GSE264667, <https://doi.org/10.1038/s41588-025-02169-3>; Jiang et al. (2025), *Nature Cell Biology*, <https://doi.org/10.1038/s41556-025-01622-z>; McFaline-Figueroa et al. (2024), *Cell Genomics*, <https://doi.org/10.1016/j.xgen.2023.100487>; Huang et al. (2025), X-Atlas/Orion, *bioRxiv*, <https://doi.org/10.1101/2025.06.11.659105>.]
+I had codex search the perturbation databases for CRISPRi datasets and had it summarize what it found below.^[Sources for the datasets below: Replogle et al. (2022), *Cell*. <https://doi.org/10.1016/j.cell.2022.05.013>; Nadig et al. (2025), *Nature Genetics*, GEO GSE264667, <https://doi.org/10.1038/s41588-025-02169-3>; Jiang et al. (2025), *Nature Cell Biology*, <https://doi.org/10.1038/s41556-025-01622-z>; McFaline-Figueroa et al. (2024), *Cell Genomics*, <https://doi.org/10.1016/j.xgen.2023.100487>; Huang et al. (2025), X-Atlas/Orion, *bioRxiv*, <https://doi.org/10.1101/2025.06.11.659105>; Nourreddine et al. (2026), *Nature Biotechnology*, <https://doi.org/10.1038/s41587-026-03199-w>; Zhu et al. (2026), *bioRxiv*, <https://doi.org/10.64898/2025.12.23.696273>.]
 (LenidKlarov on Discord also pointed out the Orion dataset. If anyone wants to share other datasets to add to the table please do.)
 The most important external datasets are the Orion dataset from Xaira Therapeutics which covers all 300 perturbations
 in two cancer cell lines and the Replogle 2022 genome wide screen in K562, a cancer cell line from a patient with leukemia.
-While it does not overlap the VCC cells in cell line or sequencing method, it covers 272 of the 300 perturbations selected
-for this year's competition, which is the largest overlap by an order of magnitude.
 
 
 | Study | Cell line | Tissue | Assay | Perturbations | VCC-300 targets | Perturbed cells | Median cells/pert |
 |---|---|---|---|---:|---:|---:|---:|
 | X-Atlas/Orion 2025 | HCT116 | colon (CRC) | 10x Perturb-seq (FiCS) | 18,293 | 300 | 3,243,392 | 150 |
 | X-Atlas/Orion 2025 | HEK293T | embryonic kidney | 10x Perturb-seq (FiCS) | 18,311 | 300 | 4,315,461 | 200 |
+| Zhu 2026 | primary CD4+ T | blood (T cell) | 10x Perturb-seq | 12,730 | 297 | 21,056,730 | 1,508 |
+| Nourreddine 2024 | KOLF2.1J | iPSC | 10x Perturb-seq | 11,687 | 282 | 2,512,462 | 218 |
 | Replogle 2022 | K562 | blood (CML) | 10x Perturb-seq | 9,870 | 272 | 1,960,878 | 182 |
 | Replogle 2022 | RPE1 | retina | 10x Perturb-seq | 2,393 | 0 | 236,429 | 72 |
 | Nadig 2025 | HepG2 | liver | 10x Perturb-seq | 2,393 | 0 | 140,497 | 45 |
