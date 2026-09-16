@@ -142,10 +142,13 @@ just rely on nearest neighbor distance in the confounded space.
 ## What's actually out there, and what it lets us compare
 
 Now that we know what we need to do to actually use other datasets, let's see what's out there.
-I had codex search the perturbation databases for CRISPRi datasets and had it summarize what it found below.^[Sources for the datasets below: Replogle et al. (2022), *Cell*. <https://doi.org/10.1016/j.cell.2022.05.013>; Nadig et al. (2025), *Nature Genetics*, GEO GSE264667, <https://doi.org/10.1038/s41588-025-02169-3>; Jiang et al. (2025), *Nature Cell Biology*, <https://doi.org/10.1038/s41556-025-01622-z>; McFaline-Figueroa et al. (2024), *Cell Genomics*, <https://doi.org/10.1016/j.xgen.2023.100487>; Huang et al. (2025), X-Atlas/Orion, *bioRxiv*, <https://doi.org/10.1101/2025.06.11.659105>; Nourreddine et al. (2026), *Nature Biotechnology*, <https://doi.org/10.1038/s41587-026-03199-w>; Zhu et al. (2026), *bioRxiv*, <https://doi.org/10.64898/2025.12.23.696273>.]
+I had codex search the perturbation databases for CRISPRi datasets and had it summarize what it found below, plus a few more (Orion, Nourreddine, and Zhu) that readers and the Myllia challenge pointed to.^[Sources for the datasets below: Replogle et al. (2022), *Cell*. <https://doi.org/10.1016/j.cell.2022.05.013>; Nadig et al. (2025), *Nature Genetics*, GEO GSE264667, <https://doi.org/10.1038/s41588-025-02169-3>; Jiang et al. (2025), *Nature Cell Biology*, <https://doi.org/10.1038/s41556-025-01622-z>; McFaline-Figueroa et al. (2024), *Cell Genomics*, <https://doi.org/10.1016/j.xgen.2023.100487>; Huang et al. (2025), X-Atlas/Orion, *bioRxiv*, <https://doi.org/10.1101/2025.06.11.659105>; Nourreddine et al. (2026), *Nature Biotechnology*, <https://doi.org/10.1038/s41587-026-03199-w>; Zhu et al. (2026), *bioRxiv*, <https://doi.org/10.64898/2025.12.23.696273>.]
 (LenidKlarov on Discord also pointed out the Orion dataset. If anyone wants to share other datasets to add to the table please do.)
-The most important external datasets are the Orion dataset from Xaira Therapeutics which covers all 300 perturbations
-in two cancer cell lines and the Replogle 2022 genome wide screen in K562, a cancer cell line from a patient with leukemia.
+The most important external datasets are the ones that overlap the VCC-300 most heavily. The Orion dataset from Xaira
+Therapeutics covers all 300 perturbations in two lines, HCT116 (a colorectal cancer line) and HEK293T (a transformed
+embryonic kidney line). Zhu 2026 covers 297 in primary CD4+ T cells — the only primary rather than immortalized context
+here — and Nourreddine 2024 covers 282 in KOLF2.1J, an induced pluripotent stem cell line and so the closest match to
+the VCC's H1. The Replogle 2022 genome wide screen in K562, a cancer cell line from a patient with leukemia, covers 272.
 
 
 | Study | Cell line | Tissue | Assay | Perturbations | VCC-300 targets | Perturbed cells | Median cells/pert |
@@ -181,10 +184,10 @@ The table below gives a ladder of evaluations that we can build up to test our a
 
 | Rung | Held fixed | Varies | Isolates | Example data |
 |---|---|---|---|---|
-| 1 — same experiment, split | cell line, method, batch | held-out perturbations | sampling / metric ceiling | a dense single context (Replogle K562; H1) |
+| 1 — same experiment, split | cell line, method, batch | held-out perturbations | sampling / metric ceiling | a dense single context (Orion, Zhu CD4+ T, or Replogle K562; H1) |
 | 2 — same cell line, different sequencing | biology ($\pi$) | method ($f_g$) | measurement batch effect | K562: Replogle (10x) × Jiang (Parse), 187 shared genes |
-| 3 — same sequencing, different cell line | method ($f_g$) | biology ($\pi$) | biological transfer | Jiang's 6 lines; McFaline's 3 GBM lines; Replogle K562↔RPE1; Nadig HepG2↔Jurkat |
-| 4 — different sequencing + different cell line | nothing | both | the full problem (≈ VCC zero-shot task) | Replogle K562 → Nadig / McFaline / Jiang non-K562 |
+| 3 — same sequencing, different cell line | method ($f_g$) | biology ($\pi$) | biological transfer | Jiang's 6 lines; McFaline's 3 GBM lines; Replogle K562↔RPE1; Nadig HepG2↔Jurkat; the 10x screens (Orion, Nourreddine, Zhu) across their lines |
+| 4 — different sequencing + different cell line | nothing | both | the full problem (≈ VCC zero-shot task) | Replogle K562 → Nadig / McFaline / Jiang non-K562; Nourreddine KOLF2.1J → H1 (pluripotent → pluripotent, the closest analog) |
 
 : The evaluation ladder — progressively harder public-data comparisons, ordered by what changes between the data we fit on and the data we predict. {#tbl-eval-ladder}
 
