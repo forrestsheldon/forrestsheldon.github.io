@@ -1,6 +1,7 @@
 ---
 title: "Baselines I: Linear Response"
 description: "A zero-shot linear baseline"
+date: 2026-09-17
 categories:
   - perturbation modelling
   - linear models
@@ -81,7 +82,7 @@ We found no nonzero global scale that transferred across perturbations. One cali
 
 I was a bit shocked by this. I expected covariance to perform poorly, but not to be indistinguishable from controls.
 The assumptions of linear response theory are so general that I expect at least some improvement.
-But to quote HPJEV (loosely) "Your strength as a rationalist is your ability to be more shocked by fiction than reality."
+But to quote HJPEV (loosely) "Your strength as a rationalist is your ability to be more shocked by fiction than reality."
 Being shocked by a result means that you are misunderstanding something, so let's start breaking this down.
 
 ### Breaking Down the Metrics
