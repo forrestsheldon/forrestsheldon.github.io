@@ -151,7 +151,7 @@ The usual finite-state sample estimator of the second term is
 $$\widehat{C}^{\mathrm{between}} = \frac{1}{M-1}\sum_{p\in\mathcal{P}}\left(\ell^{(p)}-\bar{\ell}\right)\left(\ell^{(p)}-\bar{\ell}\right)^{\mathsf{T}}.$$
 The column corresponding to the perturbation response for target $t$ is
 $$\widehat{C}^{\mathrm{between}}_{:t} = \frac{1}{M-1}\sum_{p\in\mathcal{P}}\left(\ell^{(p)}-\bar{\ell}\right)\left(\ell_t^{(p)}-\bar{\ell}_t\right).$$
-The rightmost scalar can be viewed as a weight: this is a sum over all perturbation-state mean vectors, weighted
+The rightmost scalar can be viewed as a scaling term: this is a sum over all perturbation-state mean vectors, scaled
 by how much each state changes the target gene relative to its across-state mean.
 The largest change may be in the knockdown itself, but all other perturbations contribute.
 Then, adding the average covariance across states further dilutes the perturbation signal.
