@@ -1,5 +1,5 @@
 ---
-title: "Exploring the Data II - CRISPRi"
+title: "Exploring the Data II: CRISPRi"
 description: "A dive into last year's data set to see what we can expect."
 date: 2026-09-05
 categories:

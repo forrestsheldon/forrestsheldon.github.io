@@ -1,5 +1,5 @@
 ---
-title: "VCC26: Exploring the Data III - Sequencing and External Datasets"
+title: "Exploring the Data III: Sequencing and External Datasets"
 description: "Sequencing as a sampling process, what a batch effect really is, and which public perturbation datasets we can actually compare."
 date: 2026-09-14
 categories:

@@ -1,0 +1,86 @@
+---
+title: "Baselines III: Regularisation"
+description: "Can shrinking or denoising a transferred response beat averaging alone?"
+draft: true
+categories:
+  - perturbation modelling
+  - linear models
+  - baselines
+  - regularisation
+---
+
+<!-- WORKING TITLE: replace with your own. SCAFFOLD (TODO bullets only; replace with your prose).
+Numbers are from virtual-cell-challenge-2026/reports/h1-transfer-regression/ (c = 1 unless noted;
+rerun at c = 10 to match Baselines II). Notation: x = H1 (destination), y = donor, q_p = the
+evaluated transferred effect, Y = true H1 effects. Uses the split-half machinery from
+Exploring the Data IV. -->
+
+## Shrinkage by direction
+
+- TODO: framing: every regularised transfer applies a shrinkage operator to the donor effect before transferring it.
+
+| Method | Acts on $q_p$ | Degrees of freedom |
+|---|---|---|
+| direct transfer | nothing ($a = 1$) | 0 |
+| scalar scale | all directions by one factor $a$ | 1 |
+| PCA truncation | keeps the top $k$ directions | $k$ |
+| spectral shrinkage | direction $j$ by $s_j / (s_j + n_j)$ | $k$ |
+| reduced-rank regression | learned $k \times k$ map between subspaces | $k^2$ (H1-calibrated) |
+
+## Fitting a scale
+
+- TODO: model $\hat y_p = a\,q_p$, $a$ by least squares on training targets (five fixed target folds), scored on held-out targets.
+- TODO: two definitions of $a$: effect space (E, closed form) and fold-change space (F, $\hat x_p = (x_0 + c)\,e^{a\,d_p} - c$, which generates counts). They agree.
+- TODO: prediction first, the bound:
+$$\frac{\lVert aQ - Y\rVert^2}{\lVert Y\rVert^2} = 1 - 2a\frac{\langle Q, Y\rangle}{\lVert Y\rVert^2} + a^2\frac{\lVert Q\rVert^2}{\lVert Y\rVert^2}, \qquad a^\star = \rho\,\frac{\lVert Y\rVert}{\lVert Q\rVert}, \qquad \min = 1 - \rho^2$$
+  - retrieval and cosine are invariant to $a > 0$;
+  - with $\rho \approx 0.07$–$0.10$, the best achievable MSE ratio is about 0.99.
+- Results (five-source panel, $c = 1$, held out):
+
+| Source | Fitted $a$ | MSE ratio [95%] |
+|---|---:|---|
+| K562 GWPS | 0.043 | 0.993 [0.988, 1.000] |
+| KOLF2.1J | 0.046 | 0.991 [0.986, 0.997] |
+| CD4+ T | 0.065 | 0.994 [0.987, 1.001] |
+| HCT116 | 0.021 | 0.998 [0.996, 1.001] |
+| HEK293T | 0.021 | 0.999 [0.998, 1.001] |
+
+- TODO: an $a$ of about 0.05 is mostly noise shrinkage ($a^\star = \rho \times$ norm ratio), not biological attenuation.
+- TODO: zero-shot alternative: $a$ fitted donor-to-donor (leave-one-source-out median about 0.08) vs. H1-fitted 0.136 for the average.
+
+## Fitted source weights
+
+- TODO: KOLF increment $\hat y_p = a\,\bar q_p + b\,(q_{p,\mathrm{KOLF}} - \bar q_p)$: $a = 0.137$, $b = 0.022$; KOLF adds little beyond the average.
+- TODO: multi-source regression (NNLS = OLS here): CD4+ T .059, KOLF .045, K562 .039, HCT116 .018, HEK293T .017. Weights follow measurement quality, not cosine rank. Compare with the inverse-noise weights from Baselines II.
+- Results (five-source panel, $c = 1$, held out):
+
+| Model | Cosine | MSE ratio [95%] |
+|---|---:|---|
+| H1 training mean | 0.149 | 0.979 [0.969, 0.989] |
+| equal-screen average, scaled ($a = 0.136$) | 0.113 | 0.984 [0.972, 1.003] |
+| equal-study average, scaled ($a = 0.151$) | 0.113 | 0.979 [0.967, 0.996] |
+| multi-source NNLS | 0.110 | 0.976 [0.963, 0.995] |
+| multi-source + H1 mean | 0.181 | 0.957 [0.942, 0.977] |
+| average scaled, wrong target | 0.004 | 1.000 |
+
+## Shared and target-specific parts
+
+- TODO: split $d_p = a\,(\bar d_p - m) + b\,m$, with $m$ the donors' shared response (mean over targets, excluding each target's own gene).
+- TODO: fitted $b \approx 0.34$ vs. $a \approx 0.13$: the shared part is less noisy (averaged over about 120 targets).
+- TODO: the donor shared response is mostly not H1's (cosine 0.20 with the H1 mean response); `shared_only` barely beats unchanged controls.
+- TODO: "the shared response" depends on the averaging space: H1 mean of log changes vs. the linear-CPM global shift behave differently in the harness.
+
+## PCA transfer and spectral shrinkage
+
+- TODO: prediction first: if signal is low-rank and noise is spread across genes, projection raises cosine and can beat the scalar $1 - \rho^2$ bound.
+- TODO: subspace options: donor effect PCA (zero-shot); a subspace shared across donors (stacked PCA or CCA); H1 control PCA (expected to fail, cf. Baselines I); H1 perturbation PCA (H1-calibrated reference).
+- TODO: learn the subspace from genome-wide donor screens (thousands of targets), not the 110 evaluation targets.
+- TODO: centre effects across targets first; handle the shared response separately (PC1 would otherwise be the shared response and cost PDS).
+- TODO: keep each target's own knockdown outside the projection.
+- TODO: cross-split PCA from Exploring the Data IV: eigenvectors of $\sum_p d_{p,1} d_{p,2}^{\mathsf T}$ are signal directions, with no noise diagonal.
+- TODO: figure: principal angles between donors' subspaces (a biological object or a per-screen artifact?).
+- Results: not run yet.
+
+## Where to Next
+
+- TODO: scoring post: from profiles to cells, and what the scorer rewards.

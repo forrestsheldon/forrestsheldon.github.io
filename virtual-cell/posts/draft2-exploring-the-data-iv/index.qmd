@@ -1,0 +1,62 @@
+---
+title: "Exploring the Data IV: High-Dimensional Noise"
+description: "A look at how we can distinguish true response from experimental noise"
+draft: true
+categories:
+  - data exploration
+  - measurement models
+  - perturbation data
+  - challenge 2026
+---
+
+<!-- SCAFFOLD (TODO bullets only; replace with your prose).
+Plan: virtual-cell-challenge-2026/plans/context-transfer-split-power.md
+Artifacts: data/derived/context_transfer_splits/ (built 2026-09-24; analysis not yet run). -->
+
+## Why Noise Looks Like Signal in High Dimensions
+
+- TODO: the hook from Baselines II: a zero-response donor sampled at real depth looks like a large response.
+- Anchor: $d_p = \delta_p + \varepsilon_p$, so $\mathbb{E}\lVert d_p\rVert^2 = \lVert\delta_p\rVert^2 + \sum_g \operatorname{Var}(\varepsilon_{pg})$. The noise term grows with the number of genes $G$ and shrinks with $1/n$.
+- TODO: attenuation of cosine: $\mathbb{E}\cos(d_1, d_2) \approx \cos(\delta_1, \delta_2)\sqrt{r_1 r_2}$, with reliability $r = S/Q$. This is why cosines of 0.05–0.08 need a ceiling before they can be read.
+
+## Split Halves
+
+- Anchor equations (off-diagonal estimator):
+$$\widehat S_p = \frac{1}{K(K-1)}\sum_{r\neq s} d_{pr}^{\mathsf T} d_{ps}, \qquad \widehat Q_p = \frac1K\sum_r \lVert d_{pr}\rVert^2, \qquad \widehat V_p = \widehat Q_p - \widehat S_p$$
+- TODO: assumptions: disjoint cells, an independent control per split (shared control noise biases $\widehat S$ upward), and a common effect across splits.
+- TODO: what $\widehat S < 0$ means (the signal isn't resolved; don't truncate it).
+- TODO: linear-rate estimand (CPM differences) as primary; log1p only as a sensitivity. Why: the expectation of the log transform depends on depth.
+
+## Calibrating on Controls
+
+- TODO: NT-guide pseudo-perturbations should give $\widehat S \approx 0$.
+- TODO: wrong-target cross products should give ≈ 0.
+- TODO: shared vs. independent control splits, showing the bias directly.
+- TODO: figure: $\widehat S$ distribution for controls vs. perturbations.
+
+## Signal and Noise Across Perturbations
+
+- TODO: per-perturbation $S$, $V$, $S/Q$ vs. cell count and depth; quarters vs. halves.
+- TODO: include H1 itself: the ceiling on any transfer score is set by H1's own reliability.
+- TODO: figure: reliability vs. cells × UMIs, colored by context.
+
+## Standardizing Genes
+
+- Anchor: $\widehat S^{M}_p = \frac{1}{K(K-1)}\sum_{r\neq s} d_{pr}^{\mathsf T} D^{-1} d_{ps}$
+- TODO: Poisson link: $\delta^2 / v \approx I_\beta\,\beta^2$, so $D^{-1}$ is locally the Fisher metric on log-rate changes.
+
+## Scale, Direction, or Nothing
+
+- TODO: construct pairs: $\widehat\rho_M = \widehat C_{12}/\sqrt{\widehat S_1\widehat S_2}$ and $\widehat\beta_{2\leftarrow 1} = \widehat C_{12}/\widehat S_1$.
+- TODO: interpretation table from plan §4 (inactive / same direction with a different scale / different direction / unresolved).
+
+## Isolating the Signal
+
+- TODO: per-perturbation shrinkage by $S/Q$ (optimal scalar under independent noise). Compare with the $a^\star$ values from Baselines II.
+- TODO: per-gene empirical-Bayes shrinkage $S_g/(S_g + V_g)$, with the pseudocount $c$ from Baselines II as its crude cousin.
+- TODO: cross-split covariance $\sum_p d_{p1} d_{p2}^{\mathsf T}$ estimates the between-state covariance from Baselines I *without* the noise diagonal. Callback to signal dilution.
+- TODO: low-rank projection onto the reproducible subspace.
+
+## Where to Next
+
+- TODO: reliability weights → multi-source regression and submission.

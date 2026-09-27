@@ -1,5 +1,5 @@
 ---
-title: "Exploring the Data I - Cell Lines"
+title: "Exploring the Data I: Cell Lines"
 description: "A first look at this year's challenge and the control cell data."
 date: 2026-08-29
 categories:
