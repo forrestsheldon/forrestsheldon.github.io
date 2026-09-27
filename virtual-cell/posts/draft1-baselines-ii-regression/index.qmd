@@ -70,54 +70,44 @@ This immediately suggests that there should be an optimal value for $c$: too low
 effect, too high and we introduce the donor bias more widely with the additive effect.
 For the five donor populations, we do a donor to donor transfer (20 ordered pairs), sweeping the value of $c$
 
-- TODO: evidence, in order (numbers from `virtual-cell-challenge-2026/reports/`):
-- (1) prediction: an intermediate $c$ (noise amplification at small $c$, donor biases at large $c$).
-- (2) H1 sweep $c \in \{0, 0.1, \dots, 300, \infty\}$: held-out cosine peaks at $c \approx 3$–$30$ CPM for every source and panel (`h1-transfer-regression/summary.csv`).
-- (3) donor-to-donor, no H1 data: the five-source average-of-others is best at $c = 10$ for all five destinations (`donor-pair-pseudocount/`).
-- (4) low-count genes do not move the optimum (`baselines-ii/four_source_summary.csv`; CD4+ T, HCT116, HEK293T, KOLF on 117 targets):
+#### Donor to donor: where is the optimum?
 
-| Four-source average, cosine by $c$ | 0.1 | 1 | 10 | 30 | 100 | $\infty$ |
-|---|---:|---:|---:|---:|---:|---:|
-| K562-expressed genes (7,446) | 0.083 | 0.093 | **0.100** | 0.100 | 0.093 | 0.067 |
-| all shared genes (17,580) | 0.060 | 0.081 | **0.090** | 0.087 | 0.077 | 0.053 |
-| all genes, scored on K562-expressed genes | 0.084 | 0.095 | **0.102** | 0.101 | 0.094 | 0.069 |
+- TODO figure (caption and alt text yours): `figures/donor_pseudocount_sweep.png`: each screen predicted from the average of the other four, cosine by $c$; mean over destinations in black.
+- Numbers (`donor-pair-pseudocount/pairs.csv`, `baselines-ii/pseudocount_c10_c20_c30.csv`), mean cosine over the five destinations:
 
-  - low-count genes make small $c$ worse (0.083 → 0.060 at $c = 0.1$), but the optimum stays at 10;
-  - transferring on all genes does not change the well-expressed genes' prediction (third row matches the first);
-  - KOLF is the only screen whose cosine rises with the extra genes (0.072 → 0.076): the genes K562 does not express include pluripotency-relevant ones.
-- (5) the optimum does not depend on donor depth, which rules out a pure noise-balance account (`baselines-ii/wiener_pseudocount_prediction.csv`):
-  - for small changes, $\phi_c$ shrinks each gene's log change by $y_0/(y_0 + c)$; a Wiener filter with signal variance $\sigma^2$ and Poisson noise $10^6/(N y_0)$ would use $y_0/(y_0 + 10^6/(N\sigma^2))$, so $c^\star = 10^6/(N\sigma^2)$;
+| $c$ | 0.1 | 1 | 10 | 20 | 30 | 100 | $\infty$ |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| average of the other four | 0.036 | 0.042 | 0.0448 | 0.0447 | 0.044 | 0.041 | 0.031 |
 
-| Source | Median depth $N$ | Signal variance $\sigma^2$ | Predicted $c^\star$ (CPM) |
-|---|---:|---:|---:|
-| K562 GWPS | 1.3M | 0.0024 | 359 |
-| HCT116 | 1.5M | 0.0030 | 230 |
-| HEK293T | 2.4M | 0.0021 | 190 |
-| KOLF2.1J | 0.8M | 0.0070 | 224 |
-| CD4+ T | 13.8M | 0.0033 | 28 |
+- TODO: all five destinations peak at $c = 10$, and the curve is flat from 10 to 30. Single ordered pairs are noisier: 10 of 20 peak at $c = 10$, 2 at 3, 3 at 30 and 5 at $\infty$.
 
-  - observed optimum: about 10 for all five, including CD4+ T at 17× KOLF's depth. The prediction is wrong in scale and in its depth dependence;
-  - likely reason: responses are sparse, so one average $\sigma^2$ misdescribes the few genes that respond. Noise sets the small-$c$ penalty, not the optimum.
-- (6) the optimum tracks the scoring geometry (`eval-pseudocount-rescore/`):
+#### Is it the metric?
+
+- TODO: how PDS and MSE are computed: each pseudobulk normalized to 50,000 counts, then log1p:
+$$\ln\!\left(1 + \frac{5\times 10^4\, x}{N}\right) = \ln\!\left(1 + \frac{\text{CPM}}{20}\right) = \phi_{20}(x) - \ln 20,$$
+  so the scorer measures a gene's change as $\phi_{20}(x_p) - \phi_{20}(x_0)$, the transform family at $c = 20$.
+- TODO: consequence: at $c = 20$ the transfer hands the scorer the donor's change in the scorer's own coordinates; smaller $c$ inflates low-count genes' changes (and their noise) beyond the weight the scorer gives them; larger $c$ shrinks them.
+- TODO: test: rescore the donor-to-donor sweep in other scoring spaces $\ln(1 + \text{CPM}/c_{\text{eval}})$ (`eval-pseudocount-rescore/`):
 
 | Scoring space $c_{\text{eval}}$ | 1 | 20 | 100 |
 |---|---:|---:|---:|
-| best transfer $c$ (H1, five-source average) | 1 | 10 | 30 |
+| best transfer $c$, donor to donor | 1 | 10 | 30 |
 
-- (7) $c = 20$, the official PDS/MSE geometry, against the tuned 10 (`baselines-ii/pseudocount_c10_c20_c30.csv`):
+- TODO: the optimum follows the scoring space. Caveat: the DE metrics use per-cell CPM and rank-based Wilcoxon tests, so the argument applies to PDS and MSE.
 
-| Five-source average | $c = 10$ | $c = 20$ | $c = 30$ |
+#### Checking on H1
+
+- TODO figure (caption and alt text yours): `figures/h1_pseudocount_sweep.png`: cosine into H1 by $c$, each screen and the equal-screen average.
+- Numbers (`baselines-ii/pseudocount_c10_c20_c30.csv`), five-screen average into H1:
+
+| | $c = 10$ | $c = 20$ | $c = 30$ |
 |---|---:|---:|---:|
 | retrieval | 0.857 | 0.855 | 0.853 |
 | cosine | 0.1186 | 0.1184 | 0.1170 |
-| pooled $\rho$ | 0.156 | 0.159 | 0.159 |
 | direct MSE ratio | 1.43 | 1.39 | 1.39 |
-| MSE ratio after a fitted scale (Baselines III) | 0.977 | 0.976 | 0.976 |
-| donor-to-donor cosine | 0.0448 | 0.0447 | 0.0442 |
 
-  - single screens move by less than 0.001 in cosine between 10 and 20.
-- TODO figure (caption and alt text yours): `figures/pseudocount_sweep.png`. Left: cosine into H1 by $c$ for each screen and the average. Right: donor-to-donor, each screen predicted from the other four (no H1). Dashed line at $c = 20$; the ends show ratio ($c = 0$) and additive ($c = \infty$).
-- Frozen: $c = 20$ CPM for the rest of the post. It matches the official scoring space, adds no tuned parameter, and is equal or better on every metric above. All tables below are at $c = 20$.
+- TODO: 10 and 20 are indistinguishable (single screens move by less than 0.001 in cosine); take $c = 20$ to match the scoring space. Robustness checks in the appendix.
+- Frozen: $c = 20$ CPM for the rest of the post.
 
 ## Direct transfer from each screen
 
@@ -203,3 +193,30 @@ For the five donor populations, we do a donor to donor transfer (20 ordered pair
 - TODO: Exploring the Data IV: split-half estimates of signal and noise per screen.
 - TODO: Baselines III: scale fitting (the $1 - \rho^2$ bound), PCA/spectral shrinkage, fitted source weights.
 - TODO: scoring post: from profiles to cells, and what the scorer rewards.
+
+## Appendix: Pseudocount robustness
+
+- TODO: low-count genes do not move the optimum (`baselines-ii/four_source_summary.csv`; CD4+ T, HCT116, HEK293T, KOLF on 117 H1 targets):
+
+| Four-source average, cosine by $c$ | 0.1 | 1 | 10 | 30 | 100 | $\infty$ |
+|---|---:|---:|---:|---:|---:|---:|
+| K562-expressed genes (7,446) | 0.083 | 0.093 | **0.100** | 0.100 | 0.093 | 0.067 |
+| all shared genes (17,580) | 0.060 | 0.081 | **0.090** | 0.087 | 0.077 | 0.053 |
+| all genes, scored on K562-expressed genes | 0.084 | 0.095 | **0.102** | 0.101 | 0.094 | 0.069 |
+
+  - low-count genes make small $c$ worse (0.083 → 0.060 at $c = 0.1$), but the optimum stays at 10;
+  - transferring on all genes does not change the well-expressed genes' prediction (third row matches the first);
+  - KOLF is the only screen whose cosine rises with the extra genes (0.072 → 0.076): the genes K562 does not express include pluripotency-relevant ones.
+- TODO: the optimum does not depend on donor depth, which rules out a pure noise-balance explanation (`baselines-ii/wiener_pseudocount_prediction.csv`):
+  - for small changes, $\phi_c$ shrinks each gene's log change by $y_0/(y_0 + c)$; a Wiener filter with signal variance $\sigma^2$ and Poisson noise $10^6/(N y_0)$ would use $y_0/(y_0 + 10^6/(N\sigma^2))$, so $c^\star = 10^6/(N\sigma^2)$;
+
+| Source | Median depth $N$ | Signal variance $\sigma^2$ | Predicted $c^\star$ (CPM) |
+|---|---:|---:|---:|
+| K562 GWPS | 1.3M | 0.0024 | 359 |
+| HCT116 | 1.5M | 0.0030 | 230 |
+| HEK293T | 2.4M | 0.0021 | 190 |
+| KOLF2.1J | 0.8M | 0.0070 | 224 |
+| CD4+ T | 13.8M | 0.0033 | 28 |
+
+  - observed optimum: about 10 for all five, including CD4+ T at 17× KOLF's depth. The prediction is wrong in scale and in its depth dependence;
+  - likely reason: responses are sparse, so one average $\sigma^2$ misdescribes the few genes that respond. Noise sets the small-$c$ penalty, not the optimum.
