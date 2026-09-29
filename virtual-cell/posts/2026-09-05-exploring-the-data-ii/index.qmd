@@ -202,27 +202,27 @@ This pattern of similarity amongst complexes holds more widely, though to a less
 
 To speed up our iterations, we can use Arc 2025 as a scoring benchmark to test and iterate before we submit to the
 actual competition. I had ChatGPT build a harness that uses Arc's `cell-eval2` on a precomputed DE gene panel across
-the perturbation dataset, and a minimal set of data artifacts^[I'm uncertain about whether I can distribute Arc derived data
+the perturbation dataset, and a minimal set of data artifacts^[I'm uncertain about whether I can distribute Arc-derived data
 so I decided to include a setup function that downloads the dataset and makes the artifacts. A bit heavier but you only need
 to run it once]. The panel is the
 126 H1 targets with at least 400 cells against the 38,176 non-targeting cells. It is available [here](https://github.com/forrestsheldon/vcc2026-h1-benchmark).
 I probably haven't tested it sufficiently so please use at your own risk.
 
-To do that, I've submitted a control baseline AND the control cell baseline shifted by the global perturbation axis (the average shift from the control cells to the perturbed cells)
+I scored a control baseline AND the control cell baseline shifted by the global perturbation axis (the average shift from the control cells to the perturbed cells):
 
 | metric | unchanged control | control + global axis |
 |---|---:|---:|
-| PDS (discrimination) | −0.046 | −0.045 |
-| expr MSE (capped, norm) | 0.000 | 0.000 |
-| DE log2FC nMAE | −0.076 | −0.069 |
-| DE direction fidelity | −0.084 | **+0.069** |
-| DE direction reach | −0.061 | −0.047 |
-| DE significant-gene Jaccard | −0.005 | +0.004 |
-| **avg_score** | **−0.045** | **−0.015** |
+| PDS (discrimination) | −0.031 | −0.030 |
+| expr MSE (capped, norm) | 0.000 | +0.005 |
+| DE log2FC nMAE | −0.004 | +0.003 |
+| DE direction fidelity | −1.350 | **−1.019** |
+| DE direction reach | −0.007 | +0.006 |
+| DE significant-gene Jaccard | −0.424 | −0.412 |
+| **avg_score** | **−0.303** | **−0.241** |
 
-The H1 control baseline (−0.045) sits well above the [2026 control baseline](../2026-08-29-exploring-the-data-i/index.qmd) (around −0.3), mostly because
-its direction fidelity (−0.084) stays far closer to zero than the −1.7 on the 2026 panel.
-Using this harness you can evaluate both how your model might perform as well as what specific perturbations it is succeeding or failing
+*[Updated to harness v0.4.0 results](../2026-09-29-baselines-ii-transfer/index.qmd#harness-v040).*
+
+Using this harness you can evaluate how your model might perform as well as what specific perturbations it is succeeding or failing
 on for each metric. I'll probably add some diagnostic/visualisation tools to it as well over the next few weeks.
 
 ## Shifting this year's controls
@@ -240,8 +240,3 @@ I ran the same experiment on this year's data, shifting the control cell profile
 | DE significance Jaccard | −0.005 |
 
 : 2026 validation submission --- controls shifted by the H1 global axis.
-
-Almost the entire gain is in direction fidelity, which climbs
-from around `−1.7` to `−0.04`: shifting by the global axis improves the sign agreement of many genes.
- Discrimination (PDS) does not move, because every target receives the same shift. However, the gain is much
- larger here than the `+0.031` measured on H1. If anyone understands why the shifts are so different let me know!
